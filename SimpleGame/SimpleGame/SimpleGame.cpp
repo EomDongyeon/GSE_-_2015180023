@@ -31,9 +31,7 @@ void RenderScene(void)
 
 	// Renderer Test
 	for (vector<Object>::iterator iter = obj.begin(); iter != obj.end(); ++iter)
-	{
 		g_Renderer->DrawSolidRect(iter->getter("x"), iter->getter("y"), iter->getter("z"), iter->getter("size"), iter->getter("r"), iter->getter("g"), iter->getter("b"), iter->getter("a"));
-	}
 
 	glutSwapBuffers();
 }
