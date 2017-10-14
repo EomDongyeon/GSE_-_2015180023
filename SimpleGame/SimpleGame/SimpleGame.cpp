@@ -10,14 +10,17 @@ but WITHOUT ANY WARRANTY.
 
 #include "stdafx.h"
 #include <iostream>
+#include <vector>
 #include "Dependencies\glew.h"
 #include "Dependencies\freeglut.h"
 
 #include "Renderer.h"
 #include "Object.h"
 
+using namespace std;
+
 Renderer *g_Renderer = NULL;
-Object *building[10] = { NULL };
+vector<Object> obj;
 
 int idx = 0;
 
@@ -27,8 +30,10 @@ void RenderScene(void)
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
 	// Renderer Test
-	for (int i = 0; i < idx; ++i)
-		g_Renderer->DrawSolidRect(building[idx]->getter("x"), building[idx]->getter("y"), building[idx]->getter("z"), building[idx]->getter("size"), building[idx]->getter("r"), building[idx]->getter("g"), building[idx]->getter("b"), building[idx]->getter("a"));
+	for (vector<Object>::iterator iter = obj.begin(); iter != obj.end(); ++iter)
+	{
+		g_Renderer->DrawSolidRect(iter->getter("x"), iter->getter("y"), iter->getter("z"), iter->getter("size"), iter->getter("r"), iter->getter("g"), iter->getter("b"), iter->getter("a"));
+	}
 
 	glutSwapBuffers();
 }
@@ -41,8 +46,8 @@ void Idle(void)
 void MouseInput(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-		building[idx] = new Object(0, 20, 110, 0, 0, 40, 1, 0, 0, 1);
-		++idx;
+		cout << x << " : " << y << endl;
+		obj.push_back(Object(0, 20, x - 250, 250 - y, 0, 40, 1, 0, 0, 1));
 		RenderScene();
 	}
 }
@@ -59,9 +64,8 @@ void SpecialKeyInput(int key, int x, int y)
 
 void TimerFunction(int value) {
 
-	for(int i = 0; i < idx; ++i)
-		building[i]->positionUpdate(1);
-	std::cout << "타이머" << std::endl;
+	for (vector<Object>::iterator iter = obj.begin(); iter != obj.end(); ++iter)
+		iter->positionUpdate(1);
 	RenderScene();   // 화면 재 출력 
 	glutTimerFunc(100, TimerFunction, 1); // 타이머함수 재 설정 
 }
@@ -101,8 +105,7 @@ int main(int argc, char **argv)
 	glutMainLoop();
 
 	delete g_Renderer;
-	delete building;
 
-    return 0;
+	return 0;
 }
 
