@@ -31,6 +31,11 @@ Object SceneMgr::getObj(int idx)
 	return *objs[idx];
 }
 
+void SceneMgr::update()
+{
+	for (int i = 0; i < idxObjs; ++i)
+		objs[i]->positionUpdate(10);
+}
 
 void SceneMgr::addObject(float objectStatus, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float black, float alpha)
 {

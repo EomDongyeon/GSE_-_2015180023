@@ -10,7 +10,7 @@ Object::Object(float objectStatus,float objectSpeed, float objectX, float object
 
 Object::Object()
 {
-	Initialize(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+	Initialize(0, 0, 0, 0, 0, 0, 0, 0, 1, 1);
 }
 
 Object::~Object() {
@@ -35,14 +35,27 @@ void Object::Initialize(float objectStatus, float objectSpeed, float objectX, fl
 void Object::positionUpdate(float time)
 {
 	float elapsedTime = 10;
-	x = x +  time;
-	y = y + time;
+	x = x + vX * time;
+	y = y + vY * time;
 
 	if (x > 250)
 		vX = -vX;
 
 	if (x < -250)
-		vX = -vX;
+		vX = 1;
+
+	if (y > 250)
+		vY = -vY;
+
+	if (y < -250)
+		vY = 1;
+}
+
+void Object::setPosition(float objectX, float objectY, float objectZ)
+{
+	x = objectX;
+	y = objectY;
+	z = objectZ;
 }
 
 

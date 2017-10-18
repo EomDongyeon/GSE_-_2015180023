@@ -46,7 +46,6 @@ void RenderScene(void)
 		);
 	}
 
-
 	glutSwapBuffers();
 }
 
@@ -83,11 +82,9 @@ void SpecialKeyInput(int key, int x, int y)
 
 void TimerFunction(int value) {
 
-	for (int i = 0; i < g_SceneMgr->getIdx(); ++i)
-	{
-		cout << g_SceneMgr->getObj(i).getter("y") << endl;
-		g_SceneMgr->getObj(i).positionUpdate(10);
-	}
+
+	g_SceneMgr->update();
+
 	RenderScene();   // 화면 재 출력 
 	glutTimerFunc(100, TimerFunction, 1); // 타이머함수 재 설정 
 }

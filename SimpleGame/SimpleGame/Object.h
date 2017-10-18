@@ -24,6 +24,7 @@ public:
 
 	void Initialize(float objectStatus, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float black, float alpha);
 	void positionUpdate(float time);
+	void setPosition(float objectX, float objectY, float objectZ);
 	float getter(char* type);
 	
 };
