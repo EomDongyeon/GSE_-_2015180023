@@ -8,8 +8,13 @@ Object::Object(float objectStatus,float objectSpeed, float objectX, float object
 	Initialize(objectStatus, objectSpeed, objectX, objectY, objectZ, objectSize, red, green, black, alpha);
 }
 
+Object::Object()
+{
+	Initialize(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+}
+
 Object::~Object() {
-};
+}
 
 void Object::Initialize(float objectStatus, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float black, float alpha)
 {
@@ -23,13 +28,21 @@ void Object::Initialize(float objectStatus, float objectSpeed, float objectX, fl
 	g = green;
 	b = black;
 	a = alpha;
+	vX = 1;
+	vY = 1;
 }
 
 void Object::positionUpdate(float time)
 {
-	x = x + speed * time;
-	y = y + speed * time;
-	z = z + speed * time;
+	float elapsedTime = 10;
+	x = x +  time;
+	y = y + time;
+
+	if (x > 250)
+		vX = -vX;
+
+	if (x < -250)
+		vX = -vX;
 }
 
 
@@ -64,5 +77,8 @@ float Object::getter(char* type)
 	}
 	else 	if (type == "status") {
 		return status;
+	}
+	else {
+		return 0;
 	}
 }

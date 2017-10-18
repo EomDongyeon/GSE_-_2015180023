@@ -13,11 +13,13 @@ class Object
 	};
 	float status;
 	float x, y, z;
+	float vX, vY;
 	float speed, size;
 	float r, g, b, a;
 
 public:
 	Object(float objectStatus,float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float black, float alpha);
+	Object();
 	~Object();
 
 	void Initialize(float objectStatus, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float black, float alpha);
