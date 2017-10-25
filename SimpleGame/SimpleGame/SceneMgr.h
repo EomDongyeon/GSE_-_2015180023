@@ -14,6 +14,7 @@ public:
 	~SceneMgr();
 	int  getIdx();
 	Object getObj(int idx);
+	void collisionChk();
 	void addObject(float objectStatus, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float black, float alpha);
 	void update();
 

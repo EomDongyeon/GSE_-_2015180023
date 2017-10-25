@@ -45,7 +45,10 @@ void RenderScene(void)
 			g_SceneMgr->getObj(i).getter("a")
 		);
 	}
-
+	if (g_SceneMgr->getIdx() > 1)
+	{
+		g_SceneMgr->collisionChk();
+	}
 	glutSwapBuffers();
 }
 
@@ -64,7 +67,7 @@ void MouseInput(int button, int state, int x, int y)
 		if (leftButtonDown)
 		{
 			cout << x << " : " << y << endl;
-			g_SceneMgr->addObject(0, 20, x - 250, 250 - y, 0, 40, 1, 1, 1, 1);
+			g_SceneMgr->addObject(0, 20, x - 250, 250 - y, 0, 20, 1, 1, 1, 1);
 			RenderScene();
 		}
 	}
@@ -111,6 +114,7 @@ int main(int argc, char **argv)
 	// Initialize Renderer
 	g_Renderer = new Renderer(500, 500);
 	g_SceneMgr = new SceneMgr();
+
 	if (!g_Renderer->IsInitialized())
 	{
 		std::cout << "Renderer could not be initialized.. \n";

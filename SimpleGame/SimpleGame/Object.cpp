@@ -19,6 +19,7 @@ Object::~Object() {
 void Object::Initialize(float objectStatus, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float black, float alpha)
 {
 	status = objectStatus;
+	state = 0;
 	x = objectX;
 	y = objectY;
 	z = objectZ;
@@ -58,6 +59,17 @@ void Object::setPosition(float objectX, float objectY, float objectZ)
 	z = objectZ;
 }
 
+void Object::setState(int s)
+{
+	state = s;
+}
+
+void Object::setRGB(float red, float green, float blue)
+{
+	r = red;
+	g = green;
+	b = blue;
+}
 
 float Object::getter(char* type) 
 {

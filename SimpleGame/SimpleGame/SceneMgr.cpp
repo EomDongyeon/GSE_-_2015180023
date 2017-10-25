@@ -31,6 +31,37 @@ Object SceneMgr::getObj(int idx)
 	return *objs[idx];
 }
 
+void SceneMgr::collisionChk()
+{
+	for (int i = 0; i < idxObjs; ++i)
+	{
+		int rectX = objs[i]->getter("x");
+		int rectY = objs[i]->getter("y");
+		for (int j = 0; j < idxObjs; ++j)	{
+			if (i != j)
+			{
+				int rectX2 = objs[j]->getter("x");
+				int rectY2 = objs[j]->getter("y");
+
+				// 충돌여부 체크
+				if (rectX + 10 >= rectX2 && rectX <= rectX2 + 10 && rectY + 10 >= rectY2 && rectY <= rectY2 + 10)
+				{
+					objs[j]->setState(1);
+					objs[i]->setState(1);
+					objs[j]->setRGB(1, 0, 0);
+					objs[i]->setRGB(1, 0, 0);
+				}
+				else {
+					//	objs[j]->setState(0);
+					//	objs[i]->setState(0);
+					//	objs[j]->setRGB(1, 1, 1);
+					//	objs[i]->setRGB(1, 1, 1);
+				}
+			}
+		}
+	}
+}
+
 void SceneMgr::update()
 {
 	for (int i = 0; i < idxObjs; ++i)
