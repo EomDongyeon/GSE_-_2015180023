@@ -29,15 +29,18 @@ void Object::Initialize(float objectStatus, float objectSpeed, float objectX, fl
 	g = green;
 	b = black;
 	a = alpha;
+	lifeTime = 10000;
+	life = 1;
 	vX = 1;
 	vY = 1;
 }
 
 void Object::positionUpdate(float time)
 {
-	float elapsedTime = 10;
-	x = x + vX * time;
-	y = y + vY * time;
+	float elapsedTime = (int)time % 3;
+	
+	x = x + vX * elapsedTime;
+	y = y + vY * elapsedTime;
 
 	if (x > 250)
 		vX = -vX;
@@ -50,6 +53,16 @@ void Object::positionUpdate(float time)
 
 	if (y < -250)
 		vY = 1;
+}
+
+void Object::lifeTimeUpdate(float time)
+{
+	lifeTime -= time;
+}
+
+void Object::lifeUpdate()
+{
+	life -= 1;
 }
 
 void Object::setPosition(float objectX, float objectY, float objectZ)
@@ -102,6 +115,12 @@ float Object::getter(char* type)
 	}
 	else 	if (type == "status") {
 		return status;
+	}
+	else 	if (type == "life") {
+		return life;
+	}
+	else 	if (type == "lifeTime") {
+		return lifeTime;
 	}
 	else {
 		return 0;

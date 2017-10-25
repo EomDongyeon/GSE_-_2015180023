@@ -9,6 +9,7 @@ but WITHOUT ANY WARRANTY.
 */
 
 #include "stdafx.h"
+#include "windows.h"
 #include <iostream>
 #include <vector>
 #include "Dependencies\glew.h"
@@ -20,35 +21,26 @@ but WITHOUT ANY WARRANTY.
 
 using namespace std;
 
-Renderer *g_Renderer = NULL;
 SceneMgr *g_SceneMgr = NULL;
+DWORD g_prevTime = 0;
 
 int idx = 0;
 bool leftButtonDown = false;
 
 void RenderScene(void)
 {
+	DWORD currTime = timeGetTime();
+	DWORD elapsedTime = currTime - g_prevTime;
+	g_prevTime = currTime;
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 	// Renderer Test
-	for (int i = 0; i < g_SceneMgr->getIdx(); ++i)
-	{
-		Object tmp = g_SceneMgr->getObj(i);
-		g_Renderer->DrawSolidRect(
-			g_SceneMgr->getObj(i).getter("x"),
-			g_SceneMgr->getObj(i).getter("y"),
-			g_SceneMgr->getObj(i).getter("z"),
-			g_SceneMgr->getObj(i).getter("size"),
-			g_SceneMgr->getObj(i).getter("r"),
-			g_SceneMgr->getObj(i).getter("g"),
-			g_SceneMgr->getObj(i).getter("b"),
-			g_SceneMgr->getObj(i).getter("a")
-		);
-	}
-	if (g_SceneMgr->getIdx() > 1)
-	{
+	g_SceneMgr->drawAllObjects();
+	if (g_SceneMgr->getIdx() > 2)
 		g_SceneMgr->collisionChk();
-	}
+	g_SceneMgr->update((float)currTime);
+
 	glutSwapBuffers();
 }
 
@@ -68,9 +60,9 @@ void MouseInput(int button, int state, int x, int y)
 		{
 			cout << x << " : " << y << endl;
 			g_SceneMgr->addObject(0, 20, x - 250, 250 - y, 0, 20, 1, 1, 1, 1);
-			RenderScene();
 		}
 	}
+	RenderScene();
 }
 
 void KeyInput(unsigned char key, int x, int y)
@@ -81,15 +73,6 @@ void KeyInput(unsigned char key, int x, int y)
 void SpecialKeyInput(int key, int x, int y)
 {
 	RenderScene();
-}
-
-void TimerFunction(int value) {
-
-
-	g_SceneMgr->update();
-
-	RenderScene();   // 화면 재 출력 
-	glutTimerFunc(100, TimerFunction, 1); // 타이머함수 재 설정 
 }
 
 int main(int argc, char **argv)
@@ -112,23 +95,16 @@ int main(int argc, char **argv)
 	}
 
 	// Initialize Renderer
-	g_Renderer = new Renderer(500, 500);
-	g_SceneMgr = new SceneMgr();
-
-	if (!g_Renderer->IsInitialized())
-	{
-		std::cout << "Renderer could not be initialized.. \n";
-	}
+	g_SceneMgr = new SceneMgr(500, 500);
 
 	glutDisplayFunc(RenderScene);
 	glutIdleFunc(Idle);
-	glutTimerFunc(100, TimerFunction, 1);
 	glutKeyboardFunc(KeyInput);
 	glutMouseFunc(MouseInput);
 	glutSpecialFunc(SpecialKeyInput);
 	glutMainLoop();
 
-	delete g_Renderer;
+	delete g_SceneMgr;
 
 	return 0;
 }

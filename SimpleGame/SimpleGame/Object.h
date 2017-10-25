@@ -17,6 +17,8 @@ class Object
 	float vX, vY;
 	float speed, size;
 	float r, g, b, a;
+	float life, lifeTime;
+
 
 public:
 	Object(float objectStatus,float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float black, float alpha);
@@ -25,6 +27,8 @@ public:
 
 	void Initialize(float objectStatus, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float black, float alpha);
 	void positionUpdate(float time);
+	void lifeTimeUpdate(float time);
+	void lifeUpdate();
 	void setPosition(float objectX, float objectY, float objectZ);
 	void setState(int s);
 	void setRGB(float red, float greed, float blue);
