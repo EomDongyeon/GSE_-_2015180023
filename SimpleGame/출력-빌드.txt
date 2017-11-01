@@ -1,0 +1,7 @@
+﻿1>------ 빌드 시작: 프로젝트: SimpleGame, 구성: Debug x64 ------
+1>SceneMgr.cpp
+1>c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(5): warning C4005: 'MAX_OBJECTS_COUNT': 매크로 재정의
+1>c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.h(5): note: 'MAX_OBJECTS_COUNT'의 이전 정의를 참조하십시오.
+1>SimpleGame.vcxproj -> C:\Users\dongyeon\Documents\GitHub\Project\GSE_2_2015180023\SimpleGame\x64\Debug\SimpleGame.exe
+1>SimpleGame.vcxproj -> C:\Users\dongyeon\Documents\GitHub\Project\GSE_2_2015180023\SimpleGame\x64\Debug\SimpleGame.pdb (Partial PDB)
+1>"SimpleGame.vcxproj" 프로젝트를 빌드했습니다.

@@ -9,6 +9,8 @@ but WITHOUT ANY WARRANTY.
 */
 
 #include "stdafx.h"
+#include "stdlib.h"
+#include "ctime"
 #include "windows.h"
 #include <iostream>
 #include <vector>
@@ -26,6 +28,7 @@ DWORD g_prevTime = 0;
 
 int idx = 0;
 bool leftButtonDown = false;
+bool first = true;
 
 void RenderScene(void)
 {
@@ -36,9 +39,18 @@ void RenderScene(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 	// Renderer Test
+
+	if (first)
+	{
+		g_SceneMgr->initObject();
+		first = false;
+	}
+
 	g_SceneMgr->drawAllObjects();
-	if (g_SceneMgr->getIdx() > 2)
+
+	if (g_SceneMgr->getIdx() > 1)
 		g_SceneMgr->collisionChk();
+
 	g_SceneMgr->update((float)currTime);
 
 	glutSwapBuffers();
@@ -59,10 +71,10 @@ void MouseInput(int button, int state, int x, int y)
 		if (leftButtonDown)
 		{
 			cout << x << " : " << y << endl;
-			g_SceneMgr->addObject(0, 20, x - 250, 250 - y, 0, 20, 1, 1, 1, 1);
+			g_SceneMgr->addObject(x - 250, 250 - y, OBJECT_CHARACTER);
 		}
 	}
-	RenderScene();
+//	RenderScene();
 }
 
 void KeyInput(unsigned char key, int x, int y)
@@ -75,9 +87,18 @@ void SpecialKeyInput(int key, int x, int y)
 	RenderScene();
 }
 
+void TimerFunction(int value) {
+	glutPostRedisplay(); // 화면 재 출력
+	g_SceneMgr->addObject(0, 0, OBJECT_BULLET);
+	glutTimerFunc(100, TimerFunction, 1); // 타이머함수 재 설정
+}
+
+
+
 int main(int argc, char **argv)
 {
 	// Initialize GL things
+	srand((unsigned)time(NULL));
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(0, 0);
@@ -102,6 +123,7 @@ int main(int argc, char **argv)
 	glutKeyboardFunc(KeyInput);
 	glutMouseFunc(MouseInput);
 	glutSpecialFunc(SpecialKeyInput);
+	glutTimerFunc(100, TimerFunction, 1);
 	glutMainLoop();
 
 	delete g_SceneMgr;

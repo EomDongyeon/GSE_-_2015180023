@@ -2,8 +2,9 @@
 #include "stdafx.h"
 #include "Object.h"
 #include "SceneMgr.h"
-#define MAX_OBJECTS_COUNT 50
 
+
+int idxChar = 0;
 
 SceneMgr::SceneMgr()
 {
@@ -26,13 +27,6 @@ SceneMgr::SceneMgr(int width, int height)
 SceneMgr::~SceneMgr() {
 }
 
-/*
-void SceneMgr::addObject(Object obj)
-{
-	objs[idxObjs] = new Object(obj);
-	idxObjs += 1;
-}
-*/
 
 int SceneMgr::getIdx()
 {
@@ -43,6 +37,7 @@ Object SceneMgr::getObj(int idx)
 {
 	return *objs[idx];
 }
+
 void SceneMgr::drawAllObjects() {
 	for (int i = 0; i <  idxObjs; ++i)
 		{
@@ -83,17 +78,18 @@ void SceneMgr::collisionChk()
 
 			// 충돌여부 체크
 			if (SquareCollision(rLeft, rRight, rTop, rBtm, rLeft2, rRight2, rTop2, rBtm2))
-			{
 				++collisionCount;
-			}
 
 			if (collisionCount > 0)
 			{
-				objs[i]->setRGB(1, 0, 0);
-				objs[i]->lifeUpdate();
+				if (objs[i]->getter("type") == OBJECT_BUILDING &&objs[j]->getter("type") == OBJECT_CHARACTER || objs[j]->getter("type")  == OBJECT_BUILDING && objs[i]->getter("type") == OBJECT_CHARACTER)
+				{
+				//	objs[i]->setRGB(1, 0, 0);
+					objs[i]->lifeUpdate(objs[j]->getter("type"));
+				}
 			}
 			else
-				objs[i]->setRGB(1, 1, 1);
+				objs[i]->setRGB(objs[i]->getter("r"), objs[i]->getter("g"), objs[i]->getter("b"));
 		}
 	}
 }
@@ -117,13 +113,16 @@ void SceneMgr::update(float time)
 	float life, lifeTime;
 	for (int i = 0; i < idxObjs; ++i)
 	{
-		life = objs[i]->getter("life");
-		lifeTime = objs[i]->getter("lifeTime");
-		objs[i]->positionUpdate(time);
-		//objs[i]->lifeTimeUpdate(time);
-		if (lifeTime <= 0 || life <= 0)
+		if (objs[i]->getter("type") != OBJECT_BUILDING)
 		{
-			deleteObject(i);
+			life = objs[i]->getter("life");
+			lifeTime = objs[i]->getter("lifeTime");
+			objs[i]->positionUpdate(time);
+			//objs[i]->lifeTimeUpdate(time);
+			if (lifeTime <= 0 || life <= 0)
+			{
+				deleteObject(i);
+			}
 		}
 	}
 
@@ -141,11 +140,43 @@ void SceneMgr::objectLifeCheck()
 void SceneMgr::deleteObject(int idx)
 {
 	std::cout << "오브젝트 삭제 - " << idx << std::endl;
+	objs[idx] = nullptr;
+	idxObjs -= 1;
+	for (int i = idx; i < idxObjs; ++i)
+		objs[idx] = objs[idx + 1];
+	objs[idxObjs] = nullptr;
 }
 
-void SceneMgr::addObject(float objectStatus, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float black, float alpha)
+void SceneMgr::initObject()
 {
-	objs[idxObjs] = new Object(Object(objectStatus, objectSpeed, objectX, objectY, objectZ, objectSize, red, green, black, alpha));
+	objs[idxObjs] = new Object(Object(OBJECT_BUILDING, 0, 0, 0, 0, 50, 1, 1, 0, 1, 500,0 ,0));
+	idxObjs++;
+	addObject(0, 0, OBJECT_BULLET);
+
+}
+
+
+
+void SceneMgr::addObject(float objectX, float objectY, float objectType)
+{
+	if(objectType == OBJECT_BUILDING)
+		objs[idxObjs] = new Object(Object(OBJECT_BUILDING, 0, objectX, objectY, 0, 50, 1, 1, 0, 1, 500 , 0, 0));
+	else if (objectType == OBJECT_CHARACTER)
+	{
+		if (idxChar < 10)
+		{
+			objs[idxObjs] = new Object(Object(OBJECT_CHARACTER, 100, objectX, objectY, 0, 10, 1, 1, 1, 1, 10,1, 1));
+			idxChar++;
+		}
+		else		{
+		idxObjs--;		idxChar--;
+		}
+	}
+	else if (objectType == OBJECT_BULLET)
+		objs[idxObjs] = new Object(Object(OBJECT_BULLET, 300, objectX, objectY, 0, 5, 1, 0, 0, 1, 20, rand() % 2, rand() % 2));
+	else if (objectType == OBJECT_ARROW)
+		objs[idxObjs] = new Object(Object(OBJECT_ARROW, 100, objectX, objectY, 0, 5, 0, 1, 0, 1, 10, rand() % 2, rand() % 2));
+
 	idxObjs++;
 }
 

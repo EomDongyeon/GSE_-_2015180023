@@ -4,14 +4,7 @@
 
 class Object
 {
-	enum  statusType
-	{
-		building =0, 
-		obstacle,
-		cannon,
-		bullet
-	};
-	float status;
+	float type;
 	float state;
 	float x, y, z;
 	float vX, vY;
@@ -21,14 +14,14 @@ class Object
 
 
 public:
-	Object(float objectStatus,float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float black, float alpha);
+	Object(float objectType, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float black, float alpha, float objectLife, float vecX, float vecY);
 	Object();
 	~Object();
 
-	void Initialize(float objectStatus, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float black, float alpha);
+	void Initialize(float objectType, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float black, float alpha, float objectLife, float vecX, float vecY);
 	void positionUpdate(float time);
 	void lifeTimeUpdate(float time);
-	void lifeUpdate();
+	void lifeUpdate(float obj);
 	void setPosition(float objectX, float objectY, float objectZ);
 	void setState(int s);
 	void setRGB(float red, float greed, float blue);
