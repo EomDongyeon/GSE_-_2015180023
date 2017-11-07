@@ -58,7 +58,7 @@ void RenderScene(void)
 
 void Idle(void)
 {
-	RenderScene();
+	//RenderScene();
 }
 
 void MouseInput(int button, int state, int x, int y)
@@ -74,7 +74,7 @@ void MouseInput(int button, int state, int x, int y)
 			g_SceneMgr->addObject(x - 250, 250 - y, OBJECT_CHARACTER);
 		}
 	}
-//	RenderScene();
+	RenderScene();
 }
 
 void KeyInput(unsigned char key, int x, int y)

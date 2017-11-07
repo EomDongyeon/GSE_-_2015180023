@@ -31,7 +31,7 @@ void Object::Initialize(float objectType, float objectSpeed, float objectX, floa
 	g = green;
 	b = black;
 	a = alpha;
-	lifeTime = 10000;
+	lifeTime = 100000;
 	life = objectLife;
 	vX = vecX;
 	vY = vecY;
@@ -43,7 +43,7 @@ void Object::Initialize(float objectType, float objectSpeed, float objectX, floa
 
 void Object::positionUpdate(float time)
 {
-	float elapsedTime = (int)time % 3;
+	float elapsedTime = (int)time % 30;
 	
 	x = x + vX * elapsedTime;
 	y = y + vY * elapsedTime;
@@ -62,8 +62,11 @@ void Object::positionUpdate(float time)
 		if (y < -250)
 			vY = 1;
 	}
-	if (x > 250 || x < -250 || y > 250 || y < -250)
-		life = 0;
+	else
+	{
+		if (x > 250 || x < -250 || y > 250 || y < -250)
+			life = 0;
+	}
 }
 
 void Object::lifeTimeUpdate(float time)
@@ -77,6 +80,8 @@ void Object::lifeUpdate(float obj)
 		life -= 10;
 	if (obj == OBJECT_CHARACTER)
 		life -= 10;
+	if (obj == OBJECT_BULLET)
+		life = 0;
 }
 
 void Object::setPosition(float objectX, float objectY, float objectZ)

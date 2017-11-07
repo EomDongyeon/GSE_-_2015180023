@@ -84,12 +84,25 @@ void SceneMgr::collisionChk()
 			{
 				if (objs[i]->getter("type") == OBJECT_BUILDING &&objs[j]->getter("type") == OBJECT_CHARACTER || objs[j]->getter("type")  == OBJECT_BUILDING && objs[i]->getter("type") == OBJECT_CHARACTER)
 				{
-				//	objs[i]->setRGB(1, 0, 0);
+					std:: cout << "ºôµù°ú Ãæµ¹" << std::endl;
+					objs[i]->lifeUpdate(objs[j]->getter("type"));
+				}
+				else if (objs[i]->getter("type") == OBJECT_CHARACTER &&objs[j]->getter("type") == OBJECT_BULLET || objs[j]->getter("type") == OBJECT_BULLET && objs[i]->getter("type") == OBJECT_CHARACTER)
+				{
+					std::cout << "ÃÑ¾Ë°ú Ãæµ¹" << std::endl;
+					objs[i]->setRGB(0, 1, 1);
 					objs[i]->lifeUpdate(objs[j]->getter("type"));
 				}
 			}
 			else
-				objs[i]->setRGB(objs[i]->getter("r"), objs[i]->getter("g"), objs[i]->getter("b"));
+			{
+				if(objs[i]->getter("type") == OBJECT_BUILDING)
+					objs[i]->setRGB(1,1,0);
+				else if(objs[i]->getter("type") == OBJECT_CHARACTER)
+					objs[i]->setRGB(1,1,1);
+				else if (objs[i]->getter("type") == OBJECT_BULLET)
+					objs[i]->setRGB(1,0,0);
+			}
 		}
 	}
 }
@@ -118,7 +131,7 @@ void SceneMgr::update(float time)
 			life = objs[i]->getter("life");
 			lifeTime = objs[i]->getter("lifeTime");
 			objs[i]->positionUpdate(time);
-			//objs[i]->lifeTimeUpdate(time);
+			objs[i]->lifeTimeUpdate((int)time % 5);
 			if (lifeTime <= 0 || life <= 0)
 			{
 				deleteObject(i);
