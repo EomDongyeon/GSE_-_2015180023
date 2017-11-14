@@ -45,20 +45,20 @@ void RenderScene(void)
 		g_SceneMgr->initObject();
 		first = false;
 	}
-
+	g_SceneMgr->updateAllObjects((float)elapsedTime);
 	g_SceneMgr->drawAllObjects();
 
 	if (g_SceneMgr->getIdx() > 1)
 		g_SceneMgr->collisionChk();
 
-	g_SceneMgr->update((float)currTime);
+
 
 	glutSwapBuffers();
 }
 
 void Idle(void)
 {
-	//RenderScene();
+	RenderScene();
 }
 
 void MouseInput(int button, int state, int x, int y)
@@ -70,8 +70,7 @@ void MouseInput(int button, int state, int x, int y)
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		if (leftButtonDown)
 		{
-			cout << x << " : " << y << endl;
-			g_SceneMgr->addObject(x - 250, 250 - y, OBJECT_CHARACTER);
+			g_SceneMgr->addObject(x - 250, 250 - y, OBJECT_CHARACTER,0);
 		}
 	}
 	RenderScene();
@@ -86,13 +85,6 @@ void SpecialKeyInput(int key, int x, int y)
 {
 	RenderScene();
 }
-
-void TimerFunction(int value) {
-	glutPostRedisplay(); // 화면 재 출력
-	g_SceneMgr->addObject(0, 0, OBJECT_BULLET);
-	glutTimerFunc(100, TimerFunction, 1); // 타이머함수 재 설정
-}
-
 
 
 int main(int argc, char **argv)
@@ -123,8 +115,11 @@ int main(int argc, char **argv)
 	glutKeyboardFunc(KeyInput);
 	glutMouseFunc(MouseInput);
 	glutSpecialFunc(SpecialKeyInput);
-	glutTimerFunc(100, TimerFunction, 1);
+
+	g_prevTime = timeGetTime();
+
 	glutMainLoop();
+
 
 	delete g_SceneMgr;
 
