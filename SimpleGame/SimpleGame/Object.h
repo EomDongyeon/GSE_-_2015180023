@@ -11,16 +11,16 @@ class Object
 	float speed, size;
 	float r, g, b, a;
 	float life, lifeTime;
-	float arrowTime;
+	float arrowTime, bulletTime;
 	float charNo;
-
+	float team;
 
 public:
-	Object(float objectType, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float blue, float alpha, float objectLife, float vecX, float vecY);
+	Object(float objectType, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float blue, float alpha, float objectLife, float vecX, float vecY, float objectTeam);
 	Object();
 	~Object();
 
-	void Initialize(float objectType, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float blue, float alpha, float objectLife, float vecX, float vecY);
+	void Initialize(float objectType, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float blue, float alpha, float objectLife, float vecX, float vecY, float objectTeam);
 	void positionUpdate(float time);
 	void lifeTimeUpdate(float time);
 	void setDamage(int type);
@@ -29,6 +29,7 @@ public:
 	void setState(int s);
 	void setRGB(float red, float greed, float blue);
 	void setArrowTime(float t);
+	void setBulletTime(float t);
 	float getter(char* type);
 	
 };

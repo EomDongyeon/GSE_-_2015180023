@@ -5,21 +5,21 @@
 #include "SceneMgr.h"
 
 
-Object::Object(float objectType,float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float blue, float alpha,float objectLife, float vecX, float vecY)
+Object::Object(float objectType,float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float blue, float alpha,float objectLife, float vecX, float vecY, float objectTeam)
 {
-	Initialize(objectType, objectSpeed, objectX, objectY, objectZ, objectSize, red, green, blue, alpha, objectLife, vecX, vecY);
+	Initialize(objectType, objectSpeed, objectX, objectY, objectZ, objectSize, red, green, blue, alpha, objectLife, vecX, vecY, objectTeam);
 }
 
 Object::Object()
 {
-	Initialize(0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,1,1);
+	Initialize(0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,1,1,1);
 }
 
 
 Object::~Object() {
 }
 
-void Object::Initialize(float objectType, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float blue, float alpha, float objectLife, float vecX, float vecY)
+void Object::Initialize(float objectType, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float blue, float alpha, float objectLife, float vecX, float vecY, float objectTeam)
 {
 	type = objectType;
 	state = 0;
@@ -33,32 +33,12 @@ void Object::Initialize(float objectType, float objectSpeed, float objectX, floa
 	b = blue;
 	a = alpha;
 	life = objectLife;
+	team = objectTeam;
 	arrowTime = 0;
-	if (type == OBJECT_CHARACTER)
-	{
-		vX = 300.f *((float)(rand() / (float)RAND_MAX) - 0.5f);
-		vY = 300.f *((float)(rand() / (float)RAND_MAX) - 0.5f);
-		lifeTime = 1000;
-	}
-	else if (type == OBJECT_ARROW)
-	{
-		vX = 100.f *((float)(rand() / (float)RAND_MAX) - 0.5f);
-		vY = 100.f *((float)(rand() / (float)RAND_MAX) - 0.5f);
-		lifeTime = 1000;
-
-	}
-	else if (type == OBJECT_BULLET)
-	{
-		vX = 600.f *((float)(rand() / (float)RAND_MAX) - 0.5f);
-		vY = 600.f *((float)(rand() / (float)RAND_MAX) - 0.5f);
-		lifeTime = 1000;
-	}
-	else
-	{
-		vX = 300.f *((float)(rand() / (float)RAND_MAX) - 0.5f);
-		vY = 300.f *((float)(rand() / (float)RAND_MAX) - 0.5f);
-		lifeTime = 1000;
-	}
+	bulletTime = 0;
+	vX = objectSpeed *((float)(rand() / (float)RAND_MAX) - 0.5f);
+	vY = objectSpeed *((float)(rand() / (float)RAND_MAX) - 0.5f);
+	lifeTime = 1000;
 
 }
 
@@ -66,10 +46,11 @@ void Object::positionUpdate(float time)
 {
 	float elapsedTime = time / 1000.f;
 
-	arrowTime += elapsedTime;
-
 	x = x + vX * elapsedTime;
 	y = y + vY * elapsedTime;
+
+	arrowTime += elapsedTime;
+	bulletTime += elapsedTime;
 
 	if (x > 250)
 	{
@@ -83,13 +64,13 @@ void Object::positionUpdate(float time)
 		if (type == OBJECT_BULLET || type == OBJECT_ARROW)
 			life = 0;
 	}
-	if (y > 250)
+	if (y > 400)
 	{
 		vY = -vY;
 		if (type == OBJECT_BULLET || type == OBJECT_ARROW)
 			life = 0;
 	}
-	if (y < -250)
+	if (y < -400)
 	{
 		vY = -vY;
 		if (type == OBJECT_BULLET || type == OBJECT_ARROW)
@@ -166,6 +147,11 @@ void Object::setArrowTime(float t)
 	arrowTime = t;
 }
 
+void Object::setBulletTime(float t)
+{
+	bulletTime = t;
+}
+
 float Object::getter(char* input) 
 {
 	if (input == "x") {
@@ -207,6 +193,14 @@ float Object::getter(char* input)
 	else if (input == "arrowTime")
 	{
 		return arrowTime;
+	}
+	else if (input == "team")
+	{
+		return team;
+	}
+	else if (input == "bulletTime")
+	{
+		return bulletTime;
 	}
 	else if (input == "charNo")
 	{

@@ -45,35 +45,67 @@ void SceneMgr::drawAllObjects() {
 		if (objs[i] == NULL)
 			continue;
 		{
-			if (objs[i]->getter("type") == OBJECT_BUILDING)
+			if (objs[i]->getter("team") == TEAM_1)
 			{
+				if (objs[i]->getter("type") == OBJECT_BUILDING)
+				{
 
 
-				m_renderer->DrawTexturedRect(
-					objs[i]->getter("x"),
-					objs[i]->getter("y"),
-					objs[i]->getter("z"),
-					objs[i]->getter("size"),
-					objs[i]->getter("r"),
-					objs[i]->getter("g"),
-					objs[i]->getter("b"),
-					objs[i]->getter("a"), m_renderer->CreatePngTexture("Textures/PNGs/pic1.png")
-				);
+					m_renderer->DrawTexturedRect(
+						objs[i]->getter("x"),
+						objs[i]->getter("y"),
+						objs[i]->getter("z"),
+						objs[i]->getter("size"),
+						objs[i]->getter("r"),
+						objs[i]->getter("g"),
+						objs[i]->getter("b"),
+						objs[i]->getter("a"), m_renderer->CreatePngTexture("Textures/PNGs/pic1.png")
+					);
+				}
+				else
+				{
+					m_renderer->DrawSolidRect(
+						objs[i]->getter("x"),
+						objs[i]->getter("y"),
+						objs[i]->getter("z"),
+						objs[i]->getter("size"),
+						objs[i]->getter("r"),
+						objs[i]->getter("g"),
+						objs[i]->getter("b"),
+						objs[i]->getter("a")
+					);
+				}
+			} else {
+				if (objs[i]->getter("type") == OBJECT_BUILDING)
+				{
+
+
+					m_renderer->DrawTexturedRect(
+						objs[i]->getter("x"),
+						objs[i]->getter("y"),
+						objs[i]->getter("z"),
+						objs[i]->getter("size"),
+						objs[i]->getter("r"),
+						objs[i]->getter("g"),
+						objs[i]->getter("b"),
+						objs[i]->getter("a"), m_renderer->CreatePngTexture("Textures/PNGs/pic2.png")
+					);
+				}
+				else
+				{
+					m_renderer->DrawSolidRect(
+						objs[i]->getter("x"),
+						objs[i]->getter("y"),
+						objs[i]->getter("z"),
+						objs[i]->getter("size"),
+						objs[i]->getter("r"),
+						objs[i]->getter("g"),
+						objs[i]->getter("b"),
+						objs[i]->getter("a")
+					);
+				}
+
 			}
-			else
-			{
-				m_renderer->DrawSolidRect(
-					objs[i]->getter("x"),
-					objs[i]->getter("y"),
-					objs[i]->getter("z"),
-					objs[i]->getter("size"),
-					objs[i]->getter("r"),
-					objs[i]->getter("g"),
-					objs[i]->getter("b"),
-					objs[i]->getter("a")
-				);
-			}
-
 		}
 	}
 }
@@ -86,7 +118,7 @@ void SceneMgr::collisionChk()
 
 	for (int i = 0; i < idxObjs; ++i)
 	{
-		for (int j = 0; j < idxObjs; ++j)	{
+		for (int j = 0; j < idxObjs; ++j) {
 			if (objs[i] == NULL || objs[j] == NULL)
 				continue;
 			if (i == j)
@@ -104,47 +136,53 @@ void SceneMgr::collisionChk()
 
 
 			// 충돌여부 체크
-				if (rLeft < rRight2 && rRight > rLeft2 && rBtm < rTop2 && rTop > rBtm2) {
-					if (objs[i]->getter("type") == OBJECT_BUILDING &&objs[j]->getter("type") == OBJECT_CHARACTER)
+			if (rLeft < rRight2 && rRight > rLeft2 && rBtm < rTop2 && rTop > rBtm2) {
+				if (objs[i]->getter("type") == OBJECT_BUILDING &&objs[j]->getter("type") == OBJECT_CHARACTER)
+				{
+					std::cout << "빌딩-캐릭터 충돌" << std::endl;
+					objs[i]->setDamage(OBJECT_BUILDING);
+					objs[j]->setDamage(OBJECT_BUILDING);
+				}
+				else if (objs[i]->getter("type") == OBJECT_CHARACTER &&objs[j]->getter("type") == OBJECT_BULLET)
+				{
+					std::cout << "총알-캐릭터 충돌" << std::endl;
+					objs[i]->setDamage(OBJECT_BULLET);
+					objs[j]->setDamage(OBJECT_BULLET);
+				}
+				else if (objs[i]->getter("type") == OBJECT_CHARACTER &&objs[j]->getter("type") == OBJECT_ARROW)
+				{
+					if ((float)i != objs[j]->getter("charNo"))
 					{
-						std:: cout << "빌딩-캐릭터 충돌" << std::endl;
-						objs[i]->setDamage(OBJECT_BUILDING);
-						objs[j]->setDamage(OBJECT_BUILDING);
-					}
-					else if (objs[i]->getter("type") == OBJECT_CHARACTER &&objs[j]->getter("type") == OBJECT_BULLET)
-					{
-						std::cout << "총알-캐릭터 충돌" << std::endl;
-						objs[i]->setDamage(OBJECT_BULLET);
-						objs[j]->setDamage(OBJECT_BULLET);
-					}
-					else if (objs[i]->getter("type") == OBJECT_CHARACTER &&objs[j]->getter("type") == OBJECT_ARROW)
-					{
-						if ((float)i != objs[j]->getter("charNo"))
-						{
-							std::cout << "화살-캐릭터 충돌" << std::endl;
-							objs[i]->setDamage(OBJECT_ARROW);
-							objs[j]->setDamage(OBJECT_ARROW);
-						}
-					}
-					else if (objs[i]->getter("type") == OBJECT_BUILDING &&objs[j]->getter("type") == OBJECT_ARROW)
-					{
-
-						std::cout << "건물-화살 충돌" << std::endl;
+						std::cout << "화살-캐릭터 충돌" << std::endl;
 						objs[i]->setDamage(OBJECT_ARROW);
 						objs[j]->setDamage(OBJECT_ARROW);
 					}
+				}
+				else if (objs[i]->getter("type") == OBJECT_BUILDING &&objs[j]->getter("type") == OBJECT_ARROW)
+				{
+
+					std::cout << "건물-화살 충돌" << std::endl;
+					objs[i]->setDamage(OBJECT_ARROW);
+					objs[j]->setDamage(OBJECT_ARROW);
+				}
 			}
-		
+
 		}
 	}
 }
 
 void SceneMgr::updateAllObjects(float time)
 {
-	float elapsedTime = time / 1000.f;
-	bulletTime += elapsedTime;
-
 	float life, lifeTime;
+	float elapsedTime = time / 1000.f;
+
+	charTime += elapsedTime;
+
+	if (charTime > 1.0f)
+	{
+		addObject(std::rand() % 200, 20 + std::rand() % 300, OBJECT_CHARACTER, 0, TEAM_1);
+		charTime = 0;
+	}
 
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
@@ -155,10 +193,11 @@ void SceneMgr::updateAllObjects(float time)
 			lifeTime = objs[i]->getter("lifeTime");
 			if (objs[i]->getter("type") == OBJECT_BUILDING)
 			{
-				if (bulletTime > 0.5f)
+				objs[i]->positionUpdate(time);
+				if (objs[i]->getter("bulletTime") > 0.5f)
 				{
-					addObject(0, 0, OBJECT_BULLET, i);
-					bulletTime = 0;
+					addObject(objs[i]->getter("x"), objs[i]->getter("y"), OBJECT_BULLET, i, objs[i]->getter("team"));
+					objs[i]->setBulletTime(0);
 				}
 
 			}
@@ -166,9 +205,9 @@ void SceneMgr::updateAllObjects(float time)
 			{
 				objs[i]->positionUpdate(time);
 				objs[i]->lifeTimeUpdate(time);
-				if (objs[i]->getter("arrowTime") > 0.5f)
+				if (objs[i]->getter("arrowTime") > 1.0f)
 				{
-					addObject(objs[i]->getter("x"), objs[i]->getter("y"), OBJECT_ARROW, i);
+					addObject(objs[i]->getter("x"), objs[i]->getter("y"), OBJECT_ARROW, i, objs[i]->getter("team"));
 					objs[i]->setArrowTime(0);
 				}
 
@@ -214,26 +253,37 @@ void SceneMgr::deleteObject(int idx)
 
 void SceneMgr::initObject()
 {
-	objs[idxObjs] = new Object(Object(OBJECT_BUILDING, 0, 0, 0, 0, 50, 1, 1, 0, 1, 500,0 ,0));
-	idxObjs++;
+	//team1 building
+	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, -150, 300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_1));
+	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 0, 300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_1));
+	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 150, 300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_1));
+
+	//team2 building
+	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, -150, -300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_2));
+	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 0, -300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_2));
+	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 150, -300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_2));
+
 }
 
 
 
-void SceneMgr::addObject(float objectX, float objectY, float objectType, int idx)
+void SceneMgr::addObject(float objectX, float objectY, float objectType, int idx, int team)
 {
-	if(objectType == OBJECT_BUILDING)
-		objs[idxObjs] = new Object(Object(OBJECT_BUILDING, 0, objectX, objectY, 0, 50, 1, 1, 0, 1, 500 , 0, 0));
+	if (objectType == OBJECT_BUILDING)
+		objs[idxObjs] = new Object(Object(OBJECT_BUILDING, 0, objectX, objectY, 0, 100, 1, 1, 0, 1, 500, 0, 0, 1));
 	else if (objectType == OBJECT_CHARACTER)
 	{
-		if (idxChar < 10)
+		if (idxChar < 20)
 		{
 			int i = 0;
 			while (true)
 			{
 				if (objs[i] == NULL)
 				{
-					objs[i] = new Object(Object(OBJECT_CHARACTER, 300, objectX, objectY, 0, 10, 1, 1, 1, 1, 10, 1, 1));
+					if (team == TEAM_1)
+						objs[i] = new Object(Object(OBJECT_CHARACTER, 300, objectX, objectY, 0, 10, 1, 0, 0, 1, 10, 1, 1, TEAM_1));
+					else 
+						objs[i] = new Object(Object(OBJECT_CHARACTER, 300, objectX, objectY, 0, 10, 0, 1, 1, 1, 10, 1, 1, TEAM_2));
 					++idxObjs;
 					++idxChar;
 					break;
@@ -244,14 +294,18 @@ void SceneMgr::addObject(float objectX, float objectY, float objectType, int idx
 	}
 	else if (objectType == OBJECT_BULLET)
 	{
-		if (idxBullet < 20)
+		if (idxBullet < 30)
 		{
 			int i = 0;
 			while (true)
 			{
 				if (objs[i] == NULL)
 				{
-					objs[i] = new Object(Object(OBJECT_BULLET, 600, objectX, objectY, 0, 2, 1, 0, 0, 1, 20, rand() % 2, rand() % 2));
+					if (team == TEAM_1)
+						objs[i] = new Object(Object(OBJECT_BULLET, 600, objectX, objectY, 0, 2, 1, 0, 0, 1, 20, rand() % 2, rand() % 2, TEAM_1));
+					else
+						objs[i] = new Object(Object(OBJECT_BULLET, 600, objectX, objectY, 0, 2, 0, 0,10, 1, 20, rand() % 2, rand() % 2, TEAM_2));
+
 					++idxObjs;
 					++idxBullet;
 					break;
@@ -269,7 +323,10 @@ void SceneMgr::addObject(float objectX, float objectY, float objectType, int idx
 			{
 				if (objs[i] == NULL)
 				{
-					objs[i] = new Object(Object(OBJECT_ARROW, 100, objectX, objectY, 0, 2, 0, 1, 0, 1, 10, rand() % 2, rand() % 2));
+					if(team == TEAM_1)
+						objs[i] = new Object(Object(OBJECT_ARROW, 100, objectX, objectY, 0, 2, 0.5, 0.2, 0.7, 1, 10, rand() % 2, rand() % 2, TEAM_1));
+					else
+						objs[i] = new Object(Object(OBJECT_ARROW, 100, objectX, objectY, 0, 2, 1, 1, 0, 1, 10, rand() % 2, rand() % 2, TEAM_2));
 					objs[i]->setCharAddr(idx);
 					++idxObjs;
 					++idxArrow;
@@ -278,22 +335,22 @@ void SceneMgr::addObject(float objectX, float objectY, float objectType, int idx
 				++i;
 			}
 		}
-	/*else
+		/*else
 		{
-			int i = 0;
-			while (true)
-			{
-				if (objs[i] != NULL)
-				{
-					if (objs[i]->getter("type") == OBJECT_ARROW)
-					{
-						deleteObject(i);
-						--idxArrow;
-						break;
-					}
-				}
-				++i;
-			}
+		int i = 0;
+		while (true)
+		{
+		if (objs[i] != NULL)
+		{
+		if (objs[i]->getter("type") == OBJECT_ARROW)
+		{
+		deleteObject(i);
+		--idxArrow;
+		break;
+		}
+		}
+		++i;
+		}
 		}
 		*/
 	}

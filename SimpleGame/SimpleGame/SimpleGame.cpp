@@ -29,6 +29,7 @@ DWORD g_prevTime = 0;
 int idx = 0;
 bool leftButtonDown = false;
 bool first = true;
+float Team2CharTime = 2.1f;
 
 void RenderScene(void)
 {
@@ -36,8 +37,13 @@ void RenderScene(void)
 	DWORD elapsedTime = currTime - g_prevTime;
 	g_prevTime = currTime;
 
+	float charCoolTime = elapsedTime / 1000.f;
+
+	Team2CharTime += charCoolTime;
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
+	//glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	// Renderer Test
 
 	if (first)
@@ -70,7 +76,11 @@ void MouseInput(int button, int state, int x, int y)
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		if (leftButtonDown)
 		{
-			g_SceneMgr->addObject(x - 250, 250 - y, OBJECT_CHARACTER,0);
+			if (Team2CharTime > 2.0f)
+			{
+				g_SceneMgr->addObject(x - 250, 400 - y, OBJECT_CHARACTER, 0, TEAM_2);
+				Team2CharTime = 0;
+			}
 		}
 	}
 	RenderScene();
@@ -94,7 +104,7 @@ int main(int argc, char **argv)
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(0, 0);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(500, 800);
 	glutCreateWindow("Game Software Engineering KPU");
 
 	glewInit();
@@ -108,7 +118,7 @@ int main(int argc, char **argv)
 	}
 
 	// Initialize Renderer
-	g_SceneMgr = new SceneMgr(500, 500);
+	g_SceneMgr = new SceneMgr(500, 800);
 
 	glutDisplayFunc(RenderScene);
 	glutIdleFunc(Idle);

@@ -3,11 +3,13 @@
 #include "Renderer.h"
 #include "Object.h"
 
-#define MAX_OBJECTS_COUNT 61
+#define MAX_OBJECTS_COUNT 81
 #define OBJECT_BUILDING 0
 #define OBJECT_CHARACTER 1
 #define OBJECT_BULLET 2
 #define OBJECT_ARROW 3
+#define TEAM_1 1
+#define TEAM_2 2
 
 class SceneMgr
 {
@@ -16,8 +18,7 @@ class SceneMgr
 	int windowHeight;
 	Object *objs[MAX_OBJECTS_COUNT];
 	Renderer *m_renderer;
-	float bulletTime = 0;
-	float arrowTime = 0;
+	float charTime = 0;
 
 public:
 	SceneMgr();
@@ -34,7 +35,7 @@ public:
 
 	void initObject();
 
-	void addObject(float objectX, float objectY, float objectType, int idx);
+	void addObject(float objectX, float objectY, float objectType, int idx, int team);
 
 
 };
