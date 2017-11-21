@@ -3,7 +3,7 @@
 #include "Renderer.h"
 #include "Object.h"
 
-#define MAX_OBJECTS_COUNT 81
+#define MAX_OBJECTS_COUNT 120
 #define OBJECT_BUILDING 0
 #define OBJECT_CHARACTER 1
 #define OBJECT_BULLET 2

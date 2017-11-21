@@ -7,7 +7,6 @@ it under the terms of the What The Hell License. Do it plz.
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY.
 */
-
 #include "stdafx.h"
 #include "stdlib.h"
 #include "ctime"

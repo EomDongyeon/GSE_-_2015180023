@@ -139,19 +139,34 @@ void SceneMgr::collisionChk()
 			if (rLeft < rRight2 && rRight > rLeft2 && rBtm < rTop2 && rTop > rBtm2) {
 				if (objs[i]->getter("type") == OBJECT_BUILDING &&objs[j]->getter("type") == OBJECT_CHARACTER)
 				{
-					std::cout << "빌딩-캐릭터 충돌" << std::endl;
-					objs[i]->setDamage(OBJECT_BUILDING);
-					objs[j]->setDamage(OBJECT_BUILDING);
+					if (objs[i]->getter("team") != objs[j]->getter("team"))
+					{
+						std::cout << "빌딩-캐릭터 충돌" << std::endl;
+						objs[i]->setDamage(OBJECT_BUILDING);
+						objs[j]->setDamage(OBJECT_BUILDING);
+					}
+				}
+				else if (objs[i]->getter("type") == OBJECT_CHARACTER &&objs[j]->getter("type") == OBJECT_CHARACTER)
+				{
+					if (objs[i]->getter("team") != objs[j]->getter("team"))
+					{
+						std::cout << "캐릭터-캐릭터 충돌" << std::endl;
+						objs[i]->setDamage(OBJECT_CHARACTER);
+						objs[j]->setDamage(OBJECT_CHARACTER);
+					}
 				}
 				else if (objs[i]->getter("type") == OBJECT_CHARACTER &&objs[j]->getter("type") == OBJECT_BULLET)
 				{
-					std::cout << "총알-캐릭터 충돌" << std::endl;
-					objs[i]->setDamage(OBJECT_BULLET);
-					objs[j]->setDamage(OBJECT_BULLET);
+					if (objs[i]->getter("team") != objs[j]->getter("team"))
+					{
+						std::cout << "총알-캐릭터 충돌" << std::endl;
+						objs[i]->setDamage(OBJECT_BULLET);
+						objs[j]->setDamage(OBJECT_BULLET);
+					}
 				}
 				else if (objs[i]->getter("type") == OBJECT_CHARACTER &&objs[j]->getter("type") == OBJECT_ARROW)
 				{
-					if ((float)i != objs[j]->getter("charNo"))
+					if (objs[i]->getter("team") != objs[j]->getter("team"))
 					{
 						std::cout << "화살-캐릭터 충돌" << std::endl;
 						objs[i]->setDamage(OBJECT_ARROW);
@@ -160,10 +175,12 @@ void SceneMgr::collisionChk()
 				}
 				else if (objs[i]->getter("type") == OBJECT_BUILDING &&objs[j]->getter("type") == OBJECT_ARROW)
 				{
-
-					std::cout << "건물-화살 충돌" << std::endl;
-					objs[i]->setDamage(OBJECT_ARROW);
-					objs[j]->setDamage(OBJECT_ARROW);
+					if (objs[i]->getter("team") != objs[j]->getter("team"))
+					{
+						std::cout << "건물-화살 충돌" << std::endl;
+						objs[i]->setDamage(OBJECT_ARROW);
+						objs[j]->setDamage(OBJECT_ARROW);
+					}
 				}
 			}
 
@@ -248,19 +265,18 @@ void SceneMgr::deleteObject(int idx)
 	delete objs[idx];
 	objs[idx] = NULL;
 
-
 }
 
 void SceneMgr::initObject()
 {
 	//team1 building
 	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, -150, 300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_1));
-	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 0, 300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_1));
+	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 0, 270, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_1));
 	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 150, 300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_1));
 
 	//team2 building
 	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, -150, -300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_2));
-	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 0, -300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_2));
+	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 0, -270, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_2));
 	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 150, -300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_2));
 
 }
@@ -316,7 +332,7 @@ void SceneMgr::addObject(float objectX, float objectY, float objectType, int idx
 	}
 	else if (objectType == OBJECT_ARROW)
 	{
-		if (idxArrow < 30)
+		if (idxArrow < 50)
 		{
 			int i = 0;
 			while (true)

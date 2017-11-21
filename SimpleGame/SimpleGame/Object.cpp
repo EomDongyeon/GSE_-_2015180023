@@ -92,7 +92,7 @@ void Object::setDamage(int  objType)
 			life -= 10;
 		if (objType == OBJECT_ARROW)
 			life -= 10;
-		std::cout << "건물HP: "<<  life << std::endl;
+		std::cout << "건물HP: "<< life << std::endl;
 	}
 	if (type == OBJECT_CHARACTER)
 	{
@@ -102,6 +102,8 @@ void Object::setDamage(int  objType)
 			life -= 20;
 		if (objType == OBJECT_ARROW)
 			life -= 10;
+		if (objType == OBJECT_CHARACTER)
+			life = 0;
 	}
 	if (type == OBJECT_BULLET)
 	{
