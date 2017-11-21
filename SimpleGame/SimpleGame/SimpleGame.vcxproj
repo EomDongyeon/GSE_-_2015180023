@@ -76,9 +76,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)PlatformSDK\include;$(FrameWorkSDKDir)include;$(IncludePath)</IncludePath>
-    <ExecutablePath>$(VCInstallDir)bin;$(VCInstallDir)PlatformSDK\bin;$(Path);$(ExecutablePath)</ExecutablePath>
-    <LibraryPath>$(VSInstallDir)lib;$(VCInstallDir)PlatformSDK\lib;$(VCInstallDir)lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
