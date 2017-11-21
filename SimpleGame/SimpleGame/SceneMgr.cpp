@@ -195,7 +195,7 @@ void SceneMgr::updateAllObjects(float time)
 
 	charTime += elapsedTime;
 
-	if (charTime > 1.0f)
+	if (charTime > 5.0f)
 	{
 		addObject(std::rand() % 200, 20 + std::rand() % 300, OBJECT_CHARACTER, 0, TEAM_1);
 		charTime = 0;
@@ -211,7 +211,7 @@ void SceneMgr::updateAllObjects(float time)
 			if (objs[i]->getter("type") == OBJECT_BUILDING)
 			{
 				objs[i]->positionUpdate(time);
-				if (objs[i]->getter("bulletTime") > 0.5f)
+				if (objs[i]->getter("bulletTime") > 5.0f)
 				{
 					addObject(objs[i]->getter("x"), objs[i]->getter("y"), OBJECT_BULLET, i, objs[i]->getter("team"));
 					objs[i]->setBulletTime(0);
@@ -222,7 +222,7 @@ void SceneMgr::updateAllObjects(float time)
 			{
 				objs[i]->positionUpdate(time);
 				objs[i]->lifeTimeUpdate(time);
-				if (objs[i]->getter("arrowTime") > 1.0f)
+				if (objs[i]->getter("arrowTime") > 3.0f)
 				{
 					addObject(objs[i]->getter("x"), objs[i]->getter("y"), OBJECT_ARROW, i, objs[i]->getter("team"));
 					objs[i]->setArrowTime(0);

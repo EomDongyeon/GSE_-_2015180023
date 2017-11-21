@@ -18,7 +18,7 @@ class SceneMgr
 	int windowHeight;
 	Object *objs[MAX_OBJECTS_COUNT];
 	Renderer *m_renderer;
-	float charTime = 0;
+	float charTime = 6.0;
 
 public:
 	SceneMgr();

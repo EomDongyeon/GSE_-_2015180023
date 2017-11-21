@@ -28,7 +28,7 @@ DWORD g_prevTime = 0;
 int idx = 0;
 bool leftButtonDown = false;
 bool first = true;
-float Team2CharTime = 2.1f;
+float Team2CharTime = 7.1f;
 
 void RenderScene(void)
 {
@@ -75,7 +75,7 @@ void MouseInput(int button, int state, int x, int y)
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		if (leftButtonDown)
 		{
-			if (Team2CharTime > 2.0f)
+			if (Team2CharTime > 7.0f)
 			{
 				g_SceneMgr->addObject(x - 250, 400 - y, OBJECT_CHARACTER, 0, TEAM_2);
 				Team2CharTime = 0;
