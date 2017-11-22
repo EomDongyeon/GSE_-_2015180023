@@ -49,8 +49,6 @@ void SceneMgr::drawAllObjects() {
 			{
 				if (objs[i]->getter("type") == OBJECT_BUILDING)
 				{
-
-
 					m_renderer->DrawTexturedRect(
 						objs[i]->getter("x"),
 						objs[i]->getter("y"),
@@ -59,7 +57,22 @@ void SceneMgr::drawAllObjects() {
 						objs[i]->getter("r"),
 						objs[i]->getter("g"),
 						objs[i]->getter("b"),
-						objs[i]->getter("a"), m_renderer->CreatePngTexture("Textures/PNGs/pic1.png")
+						objs[i]->getter("a"), 
+						m_renderer->CreatePngTexture("Textures/PNGs/pic1.png"),
+						LEVEL_GROUND
+					);
+					m_renderer->DrawSolidRectGauge(
+						objs[i]->getter("x"),
+						objs[i]->getter("y") + 60,
+						objs[i]->getter("z"),
+						100,
+						10,
+						1,
+						0,
+						0,
+						1,
+						objs[i]->getter("life") / 500,
+						LEVEL_GROUND
 					);
 				}
 				else
@@ -72,7 +85,8 @@ void SceneMgr::drawAllObjects() {
 						objs[i]->getter("r"),
 						objs[i]->getter("g"),
 						objs[i]->getter("b"),
-						objs[i]->getter("a")
+						objs[i]->getter("a"),
+						LEVEL_GROUND
 					);
 				}
 			} else {
@@ -88,7 +102,22 @@ void SceneMgr::drawAllObjects() {
 						objs[i]->getter("r"),
 						objs[i]->getter("g"),
 						objs[i]->getter("b"),
-						objs[i]->getter("a"), m_renderer->CreatePngTexture("Textures/PNGs/pic2.png")
+						objs[i]->getter("a"), m_renderer->CreatePngTexture("Textures/PNGs/pic2.png"),
+						LEVEL_GROUND
+					);
+
+					m_renderer->DrawSolidRectGauge(
+						objs[i]->getter("x"),
+						objs[i]->getter("y") + 60,
+						objs[i]->getter("z"),
+						100,
+						10,
+						1,
+						0,
+						0,
+						1,
+						objs[i]->getter("life") / 500,
+						LEVEL_GROUND
 					);
 				}
 				else
@@ -101,7 +130,8 @@ void SceneMgr::drawAllObjects() {
 						objs[i]->getter("r"),
 						objs[i]->getter("g"),
 						objs[i]->getter("b"),
-						objs[i]->getter("a")
+						objs[i]->getter("a"),
+						LEVEL_GROUND
 					);
 				}
 
@@ -114,11 +144,10 @@ void SceneMgr::collisionChk()
 {
 	float rLeft, rRight, rTop, rBtm;
 	float rLeft2, rRight2, rTop2, rBtm2;
-	int collisionCount;
 
-	for (int i = 0; i < idxObjs; ++i)
+	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
-		for (int j = 0; j < idxObjs; ++j) {
+		for (int j = 0; j < MAX_OBJECTS_COUNT; ++j) {
 			if (objs[i] == NULL || objs[j] == NULL)
 				continue;
 			if (i == j)
@@ -270,14 +299,14 @@ void SceneMgr::deleteObject(int idx)
 void SceneMgr::initObject()
 {
 	//team1 building
-	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, -150, 300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_1));
-	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 0, 270, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_1));
-	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 150, 300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_1));
+	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, -150, 300, 0, 100, 1, 1, 1, 1, 500, 0, 0, TEAM_1));
+	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 0, 270, 0, 100, 1, 1, 1, 1, 500, 0, 0, TEAM_1));
+	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 150, 300, 0, 100, 1, 1, 1, 1, 500, 0, 0, TEAM_1));
 
 	//team2 building
-	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, -150, -300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_2));
-	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 0, -270, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_2));
-	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 150, -300, 0, 100, 1, 1, 0, 1, 500, 0, 0, TEAM_2));
+	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, -150, -300, 0, 100, 1, 1, 1, 1, 500, 0, 0, TEAM_2));
+	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 0, -270, 0, 100, 1, 1, 1, 1, 500, 0, 0, TEAM_2));
+	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 150, -300, 0, 100, 1, 1, 1, 1, 500, 0, 0, TEAM_2));
 
 }
 

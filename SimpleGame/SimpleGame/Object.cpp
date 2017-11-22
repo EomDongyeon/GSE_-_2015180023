@@ -21,6 +21,7 @@ Object::~Object() {
 
 void Object::Initialize(float objectType, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float blue, float alpha, float objectLife, float vecX, float vecY, float objectTeam)
 {
+	int dir = rand() % 8;
 	type = objectType;
 	state = 0;
 	x = objectX;
@@ -36,8 +37,39 @@ void Object::Initialize(float objectType, float objectSpeed, float objectX, floa
 	team = objectTeam;
 	arrowTime = 0;
 	bulletTime = 0;
-	vX = objectSpeed *((float)(rand() / (float)RAND_MAX) - 0.5f);
-	vY = objectSpeed *((float)(rand() / (float)RAND_MAX) - 0.5f);
+	switch (dir)
+	{
+	case 0:
+		vX = -1; vY = 0;
+		break;
+	case 1:
+		vX = -1; vY = -1;
+		break;
+	case 2:
+		vX = 0; vY = -1;
+		break;
+	case 3:
+		vX = 1; vY = -1;
+		break;
+	case 4:
+		vX = 1; vY = 0;
+		break;
+	case 5:
+		vX = 1; vY = 1;
+		break;
+	case 6: 
+		vX = 0; vY = 1;
+		break;
+	case 7:
+		vX = -1; vY = -1;
+		break;
+	default:
+		vX = 0; vY = 1;
+		break;
+	}
+//	vX = ((float)(rand() / (float)RAND_MAX) - 0.5f);
+//	vY = ((float)(rand() / (float)RAND_MAX) - 0.5f);
+	std::cout << dir << std::endl;
 	lifeTime = 1000;
 
 }
@@ -46,8 +78,8 @@ void Object::positionUpdate(float time)
 {
 	float elapsedTime = time / 1000.f;
 
-	x = x + vX * elapsedTime;
-	y = y + vY * elapsedTime;
+	x = x + ((speed * vX ) * elapsedTime);
+	y = y + ((speed * vY ) * elapsedTime);
 
 	arrowTime += elapsedTime;
 	bulletTime += elapsedTime;
