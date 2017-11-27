@@ -37,38 +37,49 @@ void Object::Initialize(float objectType, float objectSpeed, float objectX, floa
 	team = objectTeam;
 	arrowTime = 0;
 	bulletTime = 0;
+	/*
 	switch (dir)
 	{
 	case 0:
-		vX = -1; vY = 0;
+		vX = -1; vY = 0.5;
 		break;
 	case 1:
 		vX = -1; vY = -1;
 		break;
 	case 2:
-		vX = 0; vY = -1;
+		vX = 0.3; vY = -1;
 		break;
 	case 3:
 		vX = 1; vY = -1;
 		break;
 	case 4:
-		vX = 1; vY = 0;
+		vX = 1; vY = 0.5;
 		break;
 	case 5:
 		vX = 1; vY = 1;
 		break;
 	case 6: 
-		vX = 0; vY = 1;
+		vX = 0.3; vY = 1;
 		break;
 	case 7:
 		vX = -1; vY = -1;
 		break;
 	default:
-		vX = 0; vY = 1;
+		vX = 0.3; vY = 1;
 		break;
 	}
-//	vX = ((float)(rand() / (float)RAND_MAX) - 0.5f);
-//	vY = ((float)(rand() / (float)RAND_MAX) - 0.5f);
+	*/
+	if (team == TEAM_1)
+	{
+			vX = ((float)(rand() / (float)RAND_MAX) - 0.5f);
+			vY = -1;
+	}
+	else if (team == TEAM_2)
+	{
+			vX = ((float)(rand() / (float)RAND_MAX) - 0.5f);
+			vY = 1;
+	}
+
 	std::cout << dir << std::endl;
 	lifeTime = 1000;
 
@@ -121,7 +132,7 @@ void Object::setDamage(int  objType)
 	if (type == OBJECT_BUILDING)
 	{
 		if (objType == OBJECT_CHARACTER)
-			life -= 10;
+			life -= 100;
 		if (objType == OBJECT_ARROW)
 			life -= 10;
 		std::cout << "°Ç¹°HP: "<< life << std::endl;
@@ -131,7 +142,7 @@ void Object::setDamage(int  objType)
 		if (objType == OBJECT_BUILDING)
 			life = 0;
 		if (objType == OBJECT_BULLET)
-			life -= 20;
+			life -= 15;
 		if (objType == OBJECT_ARROW)
 			life -= 10;
 		if (objType == OBJECT_CHARACTER)

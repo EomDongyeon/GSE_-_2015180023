@@ -75,8 +75,35 @@ void SceneMgr::drawAllObjects() {
 						LEVEL_GROUND
 					);
 				}
-				else
+				else 	if (objs[i]->getter("type") == OBJECT_CHARACTER)
 				{
+					m_renderer->DrawTexturedRect(
+						objs[i]->getter("x"),
+						objs[i]->getter("y"),
+						objs[i]->getter("z"),
+						objs[i]->getter("size"),
+						objs[i]->getter("r"),
+						objs[i]->getter("g"),
+						objs[i]->getter("b"),
+						objs[i]->getter("a"),
+						m_renderer->CreatePngTexture("Textures/PNGs/team1.png"),
+						LEVEL_GROUND
+					);
+					m_renderer->DrawSolidRectGauge(
+						objs[i]->getter("x"),
+						objs[i]->getter("y") + 35,
+						objs[i]->getter("z"),
+						50,
+						5,
+						1,
+						0,
+						0,
+						1,
+						objs[i]->getter("life") / 100,
+						LEVEL_GROUND
+					);
+				}	
+				else	{
 					m_renderer->DrawSolidRect(
 						objs[i]->getter("x"),
 						objs[i]->getter("y"),
@@ -92,8 +119,6 @@ void SceneMgr::drawAllObjects() {
 			} else {
 				if (objs[i]->getter("type") == OBJECT_BUILDING)
 				{
-
-
 					m_renderer->DrawTexturedRect(
 						objs[i]->getter("x"),
 						objs[i]->getter("y"),
@@ -105,18 +130,44 @@ void SceneMgr::drawAllObjects() {
 						objs[i]->getter("a"), m_renderer->CreatePngTexture("Textures/PNGs/pic2.png"),
 						LEVEL_GROUND
 					);
-
 					m_renderer->DrawSolidRectGauge(
 						objs[i]->getter("x"),
 						objs[i]->getter("y") + 60,
 						objs[i]->getter("z"),
 						100,
 						10,
+						0,
+						0,
 						1,
-						0,
-						0,
 						1,
 						objs[i]->getter("life") / 500,
+						LEVEL_GROUND
+					);
+				}
+				else 	if (objs[i]->getter("type") == OBJECT_CHARACTER)
+				{
+					m_renderer->DrawTexturedRect(
+						objs[i]->getter("x"),
+						objs[i]->getter("y"),
+						objs[i]->getter("z"),
+						objs[i]->getter("size"),
+						objs[i]->getter("r"),
+						objs[i]->getter("g"),
+						objs[i]->getter("b"),
+						objs[i]->getter("a"), m_renderer->CreatePngTexture("Textures/PNGs/team2.png"),
+						LEVEL_GROUND
+					);
+					m_renderer->DrawSolidRectGauge(
+						objs[i]->getter("x"),
+						objs[i]->getter("y") + 35,
+						objs[i]->getter("z"),
+						50,
+						5,
+						0,
+						0,
+						1,
+						1,
+						objs[i]->getter("life") / 100,
 						LEVEL_GROUND
 					);
 				}
@@ -171,8 +222,8 @@ void SceneMgr::collisionChk()
 					if (objs[i]->getter("team") != objs[j]->getter("team"))
 					{
 						std::cout << "빌딩-캐릭터 충돌" << std::endl;
-						objs[i]->setDamage(OBJECT_BUILDING);
-						objs[j]->setDamage(OBJECT_BUILDING);
+						objs[i]->setDamage(OBJECT_CHARACTER);
+						objs[j]->setDamage(OBJECT_CHARACTER);
 					}
 				}
 				else if (objs[i]->getter("type") == OBJECT_CHARACTER &&objs[j]->getter("type") == OBJECT_CHARACTER)
@@ -326,9 +377,9 @@ void SceneMgr::addObject(float objectX, float objectY, float objectType, int idx
 				if (objs[i] == NULL)
 				{
 					if (team == TEAM_1)
-						objs[i] = new Object(Object(OBJECT_CHARACTER, 300, objectX, objectY, 0, 10, 1, 0, 0, 1, 10, 1, 1, TEAM_1));
+						objs[i] = new Object(Object(OBJECT_CHARACTER, 300, objectX, objectY, 0, 30, 1, 0, 0, 1, 100, 1, 1, TEAM_1));
 					else 
-						objs[i] = new Object(Object(OBJECT_CHARACTER, 300, objectX, objectY, 0, 10, 0, 1, 1, 1, 10, 1, 1, TEAM_2));
+						objs[i] = new Object(Object(OBJECT_CHARACTER, 300, objectX, objectY, 0, 30, 1, 1, 1, 1, 100, 1, 1, TEAM_2));
 					++idxObjs;
 					++idxChar;
 					break;
@@ -347,9 +398,9 @@ void SceneMgr::addObject(float objectX, float objectY, float objectType, int idx
 				if (objs[i] == NULL)
 				{
 					if (team == TEAM_1)
-						objs[i] = new Object(Object(OBJECT_BULLET, 600, objectX, objectY, 0, 2, 1, 0, 0, 1, 20, rand() % 2, rand() % 2, TEAM_1));
+						objs[i] = new Object(Object(OBJECT_BULLET, 600, objectX, objectY, 0, 4, 1, 0, 0, 4, 15, rand() % 2, rand() % 2, TEAM_1));
 					else
-						objs[i] = new Object(Object(OBJECT_BULLET, 600, objectX, objectY, 0, 2, 0, 0,10, 1, 20, rand() % 2, rand() % 2, TEAM_2));
+						objs[i] = new Object(Object(OBJECT_BULLET, 600, objectX, objectY, 0, 4, 0, 0,10, 4, 15, rand() % 2, rand() % 2, TEAM_2));
 
 					++idxObjs;
 					++idxBullet;
@@ -369,9 +420,9 @@ void SceneMgr::addObject(float objectX, float objectY, float objectType, int idx
 				if (objs[i] == NULL)
 				{
 					if(team == TEAM_1)
-						objs[i] = new Object(Object(OBJECT_ARROW, 100, objectX, objectY, 0, 2, 0.5, 0.2, 0.7, 1, 10, rand() % 2, rand() % 2, TEAM_1));
+						objs[i] = new Object(Object(OBJECT_ARROW, 100, objectX, objectY, 0, 4, 0.5, 0.2, 0.7, 1, 10, rand() % 2, rand() % 2, TEAM_1));
 					else
-						objs[i] = new Object(Object(OBJECT_ARROW, 100, objectX, objectY, 0, 2, 1, 1, 0, 1, 10, rand() % 2, rand() % 2, TEAM_2));
+						objs[i] = new Object(Object(OBJECT_ARROW, 100, objectX, objectY, 0, 4, 1, 1, 0, 1, 10, rand() % 2, rand() % 2, TEAM_2));
 					objs[i]->setCharAddr(idx);
 					++idxObjs;
 					++idxArrow;
