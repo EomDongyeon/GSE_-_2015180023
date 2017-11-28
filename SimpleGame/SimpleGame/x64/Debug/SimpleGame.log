@@ -1,4 +1,20 @@
-﻿  Object.cpp
-c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\object.cpp(175): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\object.cpp(180): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  SceneMgr.cpp
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(63): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(76): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(91): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(104): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(117): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(132): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(145): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(159): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(172): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(186): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(280): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(296): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(307): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(401): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(403): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(423): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(423): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\dongyeon\documents\github\project\gse_2_2015180023\simplegame\simplegame\scenemgr.cpp(425): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   SimpleGame.vcxproj -> C:\Users\dongyeon\Documents\GitHub\Project\GSE_2_2015180023\SimpleGame\x64\Debug\SimpleGame.exe

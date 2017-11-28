@@ -59,7 +59,7 @@ void SceneMgr::drawAllObjects() {
 						objs[i]->getter("b"),
 						objs[i]->getter("a"), 
 						m_renderer->CreatePngTexture("Textures/PNGs/pic1.png"),
-						LEVEL_GROUND
+						LEVEL_SKY
 					);
 					m_renderer->DrawSolidRectGauge(
 						objs[i]->getter("x"),
@@ -72,7 +72,7 @@ void SceneMgr::drawAllObjects() {
 						0,
 						1,
 						objs[i]->getter("life") / 500,
-						LEVEL_GROUND
+						LEVEL_SKY
 					);
 				}
 				else 	if (objs[i]->getter("type") == OBJECT_CHARACTER)
@@ -113,7 +113,7 @@ void SceneMgr::drawAllObjects() {
 						objs[i]->getter("g"),
 						objs[i]->getter("b"),
 						objs[i]->getter("a"),
-						LEVEL_GROUND
+						LEVEL_UNDERGROUND
 					);
 				}
 			} else {
@@ -128,7 +128,7 @@ void SceneMgr::drawAllObjects() {
 						objs[i]->getter("g"),
 						objs[i]->getter("b"),
 						objs[i]->getter("a"), m_renderer->CreatePngTexture("Textures/PNGs/pic2.png"),
-						LEVEL_GROUND
+						LEVEL_SKY
 					);
 					m_renderer->DrawSolidRectGauge(
 						objs[i]->getter("x"),
@@ -141,7 +141,7 @@ void SceneMgr::drawAllObjects() {
 						1,
 						1,
 						objs[i]->getter("life") / 500,
-						LEVEL_GROUND
+						LEVEL_SKY
 					);
 				}
 				else 	if (objs[i]->getter("type") == OBJECT_CHARACTER)
@@ -182,7 +182,7 @@ void SceneMgr::drawAllObjects() {
 						objs[i]->getter("g"),
 						objs[i]->getter("b"),
 						objs[i]->getter("a"),
-						LEVEL_GROUND
+						LEVEL_UNDERGROUND
 					);
 				}
 
@@ -302,7 +302,7 @@ void SceneMgr::updateAllObjects(float time)
 			{
 				objs[i]->positionUpdate(time);
 				objs[i]->lifeTimeUpdate(time);
-				if (objs[i]->getter("arrowTime") > 3.0f)
+				if (objs[i]->getter("arrowTime") > 1.0f)
 				{
 					addObject(objs[i]->getter("x"), objs[i]->getter("y"), OBJECT_ARROW, i, objs[i]->getter("team"));
 					objs[i]->setArrowTime(0);
