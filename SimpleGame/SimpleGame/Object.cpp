@@ -35,8 +35,8 @@ void Object::Initialize(float objectType, float objectSpeed, float objectX, floa
 	a = alpha;
 	life = objectLife;
 	team = objectTeam;
-	arrowTime = 0;
-	bulletTime = 0;
+	arrowTime = 1.1;
+	bulletTime = 7.0;
 	/*
 	switch (dir)
 	{

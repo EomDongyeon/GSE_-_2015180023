@@ -420,9 +420,9 @@ void SceneMgr::addObject(float objectX, float objectY, float objectType, int idx
 				if (objs[i] == NULL)
 				{
 					if(team == TEAM_1)
-						objs[i] = new Object(Object(OBJECT_ARROW, 100, objectX, objectY, 0, 4, 0.5, 0.2, 0.7, 1, 10, rand() % 2, rand() % 2, TEAM_1));
+						objs[i] = new Object(Object(OBJECT_ARROW, 150, objectX, objectY, 0, 4, 0.5, 0.2, 0.7, 1, 10, rand() % 2, rand() % 2, TEAM_1));
 					else
-						objs[i] = new Object(Object(OBJECT_ARROW, 100, objectX, objectY, 0, 4, 1, 1, 0, 1, 10, rand() % 2, rand() % 2, TEAM_2));
+						objs[i] = new Object(Object(OBJECT_ARROW, 150, objectX, objectY, 0, 4, 1, 1, 0, 1, 10, rand() % 2, rand() % 2, TEAM_2));
 					objs[i]->setCharAddr(idx);
 					++idxObjs;
 					++idxArrow;
