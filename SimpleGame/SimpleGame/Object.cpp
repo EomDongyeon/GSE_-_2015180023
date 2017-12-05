@@ -37,6 +37,7 @@ void Object::Initialize(float objectType, float objectSpeed, float objectX, floa
 	team = objectTeam;
 	arrowTime = 1.1;
 	bulletTime = 7.0;
+	animeIdx = 0;
 	/*
 	switch (dir)
 	{
@@ -79,8 +80,6 @@ void Object::Initialize(float objectType, float objectSpeed, float objectX, floa
 			vX = ((float)(rand() / (float)RAND_MAX) - 0.5f);
 			vY = 1;
 	}
-
-	std::cout << dir << std::endl;
 	lifeTime = 1000;
 
 }
@@ -132,9 +131,11 @@ void Object::setDamage(int  objType)
 	if (type == OBJECT_BUILDING)
 	{
 		if (objType == OBJECT_CHARACTER)
-			life -= 100;
+			life -= 10;
 		if (objType == OBJECT_ARROW)
 			life -= 10;
+		if (objType == OBJECT_BULLET)
+			life -= 20;
 		std::cout << "°Ç¹°HP: "<< life << std::endl;
 	}
 	if (type == OBJECT_CHARACTER)
@@ -197,6 +198,11 @@ void Object::setBulletTime(float t)
 	bulletTime = t;
 }
 
+void Object::setAnimeIdx(float idx)
+{
+	animeIdx = idx;
+}
+
 float Object::getter(char* input) 
 {
 	if (input == "x") {
@@ -250,6 +256,18 @@ float Object::getter(char* input)
 	else if (input == "charNo")
 	{
 		return charNo;
+	}
+	else if (input == "vX")
+	{
+		return vX;
+	}
+	else if (input == "vY")
+	{
+		return vY;
+	}
+	else if (input == "animeIdx")
+	{
+		return animeIdx;
 	}
 	else {
 		return 0;

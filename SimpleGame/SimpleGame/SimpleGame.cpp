@@ -51,7 +51,7 @@ void RenderScene(void)
 		first = false;
 	}
 	g_SceneMgr->updateAllObjects((float)elapsedTime);
-	g_SceneMgr->drawAllObjects();
+	g_SceneMgr->drawAllObjects((float)elapsedTime);
 
 	if (g_SceneMgr->getIdx() > 1)
 		g_SceneMgr->collisionChk();
@@ -75,7 +75,7 @@ void MouseInput(int button, int state, int x, int y)
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		if (leftButtonDown)
 		{
-			if (Team2CharTime > 7.0f)
+			if (Team2CharTime > 5.0f)
 			{
 				g_SceneMgr->addObject(x - 250, 400 - y, OBJECT_CHARACTER, 0, TEAM_2);
 				Team2CharTime = 0;

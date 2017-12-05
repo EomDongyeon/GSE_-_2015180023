@@ -6,6 +6,8 @@
 int idxChar = 0;
 int idxBullet = 0;
 int idxArrow = 0;
+int animeIdx = 0;
+float particleTime = 0;
 
 SceneMgr::SceneMgr()
 {
@@ -39,7 +41,27 @@ Object SceneMgr::getObj(int idx)
 	return *objs[idx];
 }
 
-void SceneMgr::drawAllObjects() {
+void SceneMgr::drawAllObjects(float time) {
+	particleTime += 0.005f;
+	//배경 그리기 
+
+	m_renderer->DrawTexturedRect(
+		0,
+		0,
+		0,
+		800,
+		1,
+		1,
+		1,
+		1,
+		m_renderer->CreatePngTexture("Textures/PNGs/bg.png"),
+		0.4
+	);
+	
+	// 오브젝트 그리기
+	if (animeIdx++ > 10)
+		animeIdx = 0;
+
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
 		if (objs[i] == NULL)
@@ -77,6 +99,7 @@ void SceneMgr::drawAllObjects() {
 				}
 				else 	if (objs[i]->getter("type") == OBJECT_CHARACTER)
 				{
+					/*
 					m_renderer->DrawTexturedRect(
 						objs[i]->getter("x"),
 						objs[i]->getter("y"),
@@ -89,6 +112,31 @@ void SceneMgr::drawAllObjects() {
 						m_renderer->CreatePngTexture("Textures/PNGs/team1.png"),
 						LEVEL_GROUND
 					);
+					*/
+
+					int idx = objs[i]->getter("animeIdx");
+					if (idx > 9)
+						idx = 0;
+
+					m_renderer->DrawTexturedRectSeq(
+						objs[i]->getter("x"),
+						objs[i]->getter("y"),
+						objs[i]->getter("z"),
+						80,
+						objs[i]->getter("r"),
+						objs[i]->getter("g"),
+						objs[i]->getter("b"),
+						objs[i]->getter("a"),
+						m_renderer->CreatePngTexture("Textures/PNGs/character-sprite.png"),
+						idx++,
+						0,
+						10,
+						1,
+						LEVEL_GROUND
+					);
+					objs[i]->setAnimeIdx(idx);
+
+
 					m_renderer->DrawSolidRectGauge(
 						objs[i]->getter("x"),
 						objs[i]->getter("y") + 35,
@@ -103,6 +151,36 @@ void SceneMgr::drawAllObjects() {
 						LEVEL_GROUND
 					);
 				}	
+				else if(objs[i]->getter("type") == OBJECT_BULLET)
+				{
+					m_renderer->DrawParticle(
+						objs[i]->getter("x"),
+						objs[i]->getter("y"),
+						objs[i]->getter("z"),
+						7,
+						1,
+						1,
+						1,
+						1,
+						(objs[i]->getter("vX")* -1),
+						(objs[i]->getter("vY") * -1),
+						m_renderer->CreatePngTexture("Textures/PNGs/particle_effect.png"),
+						particleTime
+					);
+
+					m_renderer->DrawTexturedRect(
+						objs[i]->getter("x"),
+						objs[i]->getter("y"),
+						objs[i]->getter("z"),
+						20,
+						1,
+						1,
+						1,
+						1,
+						m_renderer->CreatePngTexture("Textures/PNGs/bullet1.png"),
+						LEVEL_UNDERGROUND
+					);
+				}
 				else	{
 					m_renderer->DrawSolidRect(
 						objs[i]->getter("x"),
@@ -115,6 +193,7 @@ void SceneMgr::drawAllObjects() {
 						objs[i]->getter("a"),
 						LEVEL_UNDERGROUND
 					);
+
 				}
 			} else {
 				if (objs[i]->getter("type") == OBJECT_BUILDING)
@@ -146,17 +225,28 @@ void SceneMgr::drawAllObjects() {
 				}
 				else 	if (objs[i]->getter("type") == OBJECT_CHARACTER)
 				{
-					m_renderer->DrawTexturedRect(
+					int idx = objs[i]->getter("animeIdx");
+					if (idx > 9)
+						idx = 0;
+
+					m_renderer->DrawTexturedRectSeq(
 						objs[i]->getter("x"),
 						objs[i]->getter("y"),
 						objs[i]->getter("z"),
-						objs[i]->getter("size"),
+						80,
 						objs[i]->getter("r"),
 						objs[i]->getter("g"),
 						objs[i]->getter("b"),
-						objs[i]->getter("a"), m_renderer->CreatePngTexture("Textures/PNGs/team2.png"),
+						objs[i]->getter("a"),
+						m_renderer->CreatePngTexture("Textures/PNGs/character2-sprite.png"),
+						idx++,
+						0,
+						10,
+						1,
 						LEVEL_GROUND
 					);
+					objs[i]->setAnimeIdx(idx);
+
 					m_renderer->DrawSolidRectGauge(
 						objs[i]->getter("x"),
 						objs[i]->getter("y") + 35,
@@ -170,9 +260,37 @@ void SceneMgr::drawAllObjects() {
 						objs[i]->getter("life") / 100,
 						LEVEL_GROUND
 					);
-				}
-				else
-				{
+
+
+				} 	else if (objs[i]->getter("type") == OBJECT_BULLET)	{
+					m_renderer->DrawParticle(
+						objs[i]->getter("x"),
+						objs[i]->getter("y"),
+						objs[i]->getter("z"),
+						7,
+						1,
+						1,
+						1,
+						1,
+						(objs[i]->getter("vX")* -1),
+						(objs[i]->getter("vY") * -1),
+						m_renderer->CreatePngTexture("Textures/PNGs/particle_effect.png"),
+						particleTime
+					);
+
+					m_renderer->DrawTexturedRect(
+						objs[i]->getter("x"),
+						objs[i]->getter("y"),
+						objs[i]->getter("z"),
+						20,
+						1,
+						1,
+						1,
+						1,
+						m_renderer->CreatePngTexture("Textures/PNGs/bullet2.png"),
+						LEVEL_UNDERGROUND
+					);
+				}	else	{
 					m_renderer->DrawSolidRect(
 						objs[i]->getter("x"),
 						objs[i]->getter("y"),
@@ -260,6 +378,15 @@ void SceneMgr::collisionChk()
 						std::cout << "건물-화살 충돌" << std::endl;
 						objs[i]->setDamage(OBJECT_ARROW);
 						objs[j]->setDamage(OBJECT_ARROW);
+					}
+				}
+				else if (objs[i]->getter("type") == OBJECT_BUILDING &&objs[j]->getter("type") == OBJECT_BULLET)
+				{
+					if (objs[i]->getter("team") != objs[j]->getter("team"))
+					{
+						std::cout << "건물-총알 충돌" << std::endl;
+						objs[i]->setDamage(OBJECT_BULLET);
+						objs[j]->setDamage(OBJECT_BULLET);
 					}
 				}
 			}
@@ -377,9 +504,9 @@ void SceneMgr::addObject(float objectX, float objectY, float objectType, int idx
 				if (objs[i] == NULL)
 				{
 					if (team == TEAM_1)
-						objs[i] = new Object(Object(OBJECT_CHARACTER, 300, objectX, objectY, 0, 30, 1, 0, 0, 1, 100, 1, 1, TEAM_1));
+						objs[i] = new Object(Object(OBJECT_CHARACTER, 200, objectX, objectY, 0, 30, 1, 0, 0, 1, 100, 1, 1, TEAM_1));
 					else 
-						objs[i] = new Object(Object(OBJECT_CHARACTER, 300, objectX, objectY, 0, 30, 1, 1, 1, 1, 100, 1, 1, TEAM_2));
+						objs[i] = new Object(Object(OBJECT_CHARACTER, 200, objectX, objectY, 0, 30, 1, 1, 1, 1, 100, 1, 1, TEAM_2));
 					++idxObjs;
 					++idxChar;
 					break;
@@ -398,9 +525,9 @@ void SceneMgr::addObject(float objectX, float objectY, float objectType, int idx
 				if (objs[i] == NULL)
 				{
 					if (team == TEAM_1)
-						objs[i] = new Object(Object(OBJECT_BULLET, 600, objectX, objectY, 0, 4, 1, 0, 0, 4, 15, rand() % 2, rand() % 2, TEAM_1));
+						objs[i] = new Object(Object(OBJECT_BULLET, 400, objectX, objectY, 0, 4, 1, 0, 0, 4, 15, rand() % 2, rand() % 2, TEAM_1));
 					else
-						objs[i] = new Object(Object(OBJECT_BULLET, 600, objectX, objectY, 0, 4, 0, 0,10, 4, 15, rand() % 2, rand() % 2, TEAM_2));
+						objs[i] = new Object(Object(OBJECT_BULLET, 400, objectX, objectY, 0, 4, 0, 0,10, 4, 15, rand() % 2, rand() % 2, TEAM_2));
 
 					++idxObjs;
 					++idxBullet;

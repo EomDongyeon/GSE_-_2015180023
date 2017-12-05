@@ -14,6 +14,7 @@ class Object
 	float arrowTime, bulletTime;
 	float charNo;
 	float team;
+	float animeIdx;
 
 public:
 	Object(float objectType, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float blue, float alpha, float objectLife, float vecX, float vecY, float objectTeam);
@@ -30,6 +31,7 @@ public:
 	void setRGB(float red, float greed, float blue);
 	void setArrowTime(float t);
 	void setBulletTime(float t);
+	void setAnimeIdx(float idx);
 	float getter(char* type);
 	
 };

@@ -24,7 +24,7 @@ class SceneMgr
 	int windowHeight;
 	Object *objs[MAX_OBJECTS_COUNT];
 	Renderer *m_renderer;
-	float charTime = 6.0;
+	float charTime = 5.1f;
 
 public:
 	SceneMgr();
@@ -32,7 +32,7 @@ public:
 	~SceneMgr();
 	int  getIdx();
 	Object getObj(int idx);
-	void drawAllObjects();
+	void drawAllObjects(float time);
 	void collisionChk();
 	void updateAllObjects(float time);
 
