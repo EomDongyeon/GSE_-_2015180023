@@ -42,9 +42,9 @@ Object SceneMgr::getObj(int idx)
 }
 
 void SceneMgr::drawAllObjects(float time) {
-	particleTime += 0.005f;
+	particleTime += 0.05f;
 	//배경 그리기 
-
+	
 	m_renderer->DrawTexturedRect(
 		0,
 		0,

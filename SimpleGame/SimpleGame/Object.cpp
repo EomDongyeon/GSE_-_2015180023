@@ -131,7 +131,7 @@ void Object::setDamage(int  objType)
 	if (type == OBJECT_BUILDING)
 	{
 		if (objType == OBJECT_CHARACTER)
-			life -= 10;
+			life -= 100;
 		if (objType == OBJECT_ARROW)
 			life -= 10;
 		if (objType == OBJECT_BULLET)
