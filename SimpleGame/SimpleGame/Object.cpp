@@ -94,25 +94,25 @@ void Object::positionUpdate(float time)
 	arrowTime += elapsedTime;
 	bulletTime += elapsedTime;
 
-	if (x > 250)
+	if (x >= 250)
 	{
 		vX = -vX;
 		if (type == OBJECT_BULLET || type == OBJECT_ARROW)
 			life = 0;
 	}
-	if (x < -250)
+	if (x <= -250)
 	{
 		vX = -vX;
 		if (type == OBJECT_BULLET || type == OBJECT_ARROW)
 			life = 0;
 	}
-	if (y > 400)
+	if (y >= 400)
 	{
 		vY = -vY;
 		if (type == OBJECT_BULLET || type == OBJECT_ARROW)
 			life = 0;
 	}
-	if (y < -400)
+	if (y <= -400)
 	{
 		vY = -vY;
 		if (type == OBJECT_BULLET || type == OBJECT_ARROW)
@@ -130,11 +130,11 @@ void Object::setDamage(int  objType)
 {
 	if (type == OBJECT_BUILDING)
 	{
-		if (objType == OBJECT_CHARACTER)
+		if (objType == OBJECT_BUILDING)
 			life -= 100;
-		if (objType == OBJECT_ARROW)
+		else if (objType == OBJECT_ARROW)
 			life -= 10;
-		if (objType == OBJECT_BULLET)
+		else if (objType == OBJECT_BULLET)
 			life -= 20;
 		std::cout << "°Ç¹°HP: "<< life << std::endl;
 	}
@@ -142,12 +142,12 @@ void Object::setDamage(int  objType)
 	{
 		if (objType == OBJECT_BUILDING)
 			life = 0;
-		if (objType == OBJECT_BULLET)
+		else if (objType == OBJECT_BULLET)
 			life -= 15;
-		if (objType == OBJECT_ARROW)
+		else if (objType == OBJECT_ARROW)
 			life -= 10;
-		if (objType == OBJECT_CHARACTER)
-			life = 0;
+		//if (objType == OBJECT_CHARACTER)
+			//life = 0;
 	}
 	if (type == OBJECT_BULLET)
 	{

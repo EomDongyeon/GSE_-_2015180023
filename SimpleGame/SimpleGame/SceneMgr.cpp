@@ -3,11 +3,6 @@
 #include "Object.h"
 #include "SceneMgr.h"
 
-int idxChar = 0;
-int idxBullet = 0;
-int idxArrow = 0;
-int animeIdx = 0;
-float particleTime = 0;
 
 SceneMgr::SceneMgr()
 {
@@ -17,6 +12,12 @@ SceneMgr::SceneMgr()
 SceneMgr::SceneMgr(int width, int height)
 {
 	idxObjs = 0;
+	idxChar = 0;
+	idxBullet = 0;
+	idxArrow = 0;
+	animeIdx = 0;
+	particleTime = 0;
+
 	m_renderer = new Renderer(width, height);
 	if (!m_renderer->IsInitialized())
 	{
@@ -24,6 +25,21 @@ SceneMgr::SceneMgr(int width, int height)
 	}
 	windowWidth = width;
 	windowHeight = height;
+
+	BgTexID = m_renderer->CreatePngTexture("Textures/PNGs/bg.png");
+	Team1TexID = m_renderer->CreatePngTexture("Textures/PNGs/pic1.png");
+	Team2TexID = m_renderer->CreatePngTexture("Textures/PNGs/pic2.png");
+	Bullet1TexID = m_renderer->CreatePngTexture("Textures/PNGs/bullet1.png");
+	Bullet2TexID = m_renderer->CreatePngTexture("Textures/PNGs/bullet2.png");
+	ParticleTexID = m_renderer->CreatePngTexture("Textures/PNGs/particle_effect.png");
+	Char1TexID = m_renderer->CreatePngTexture("Textures/PNGs/character-sprite.png");
+	Char2TexID = m_renderer->CreatePngTexture("Textures/PNGs/character2-sprite.png");
+
+	m_sound = new Sound();
+	int soundBG = m_sound->CreateSound("Sound/bgm.mp3");
+
+	m_sound->PlaySound(soundBG, true, 0.2f);
+
 
 }
 
@@ -42,6 +58,7 @@ Object SceneMgr::getObj(int idx)
 }
 
 void SceneMgr::drawAllObjects(float time) {
+	char buf[200];
 	particleTime += 0.05f;
 	//배경 그리기 
 	
@@ -64,9 +81,9 @@ void SceneMgr::drawAllObjects(float time) {
 
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
-		if (objs[i] == NULL)
+		if (objs[i] == nullptr)
 			continue;
-		{
+		else {
 			if (objs[i]->getter("team") == TEAM_1)
 			{
 				if (objs[i]->getter("type") == OBJECT_BUILDING)
@@ -80,7 +97,7 @@ void SceneMgr::drawAllObjects(float time) {
 						objs[i]->getter("g"),
 						objs[i]->getter("b"),
 						objs[i]->getter("a"), 
-						m_renderer->CreatePngTexture("Textures/PNGs/pic1.png"),
+						Team1TexID,
 						LEVEL_SKY
 					);
 					m_renderer->DrawSolidRectGauge(
@@ -95,6 +112,13 @@ void SceneMgr::drawAllObjects(float time) {
 						1,
 						objs[i]->getter("life") / 500,
 						LEVEL_SKY
+					);					
+					itoa((int)objs[i]->getter("life"), buf, 10);
+					m_renderer->DrawTextW(
+						objs[i]->getter("x") + 60,
+						objs[i]->getter("y") + 55,
+						GLUT_BITMAP_HELVETICA_18,
+						0, 0, 0, buf
 					);
 				}
 				else 	if (objs[i]->getter("type") == OBJECT_CHARACTER)
@@ -113,6 +137,13 @@ void SceneMgr::drawAllObjects(float time) {
 						LEVEL_GROUND
 					);
 					*/
+					itoa((int)objs[i]->getter("life"), buf, 10);
+					m_renderer->DrawTextW(
+						objs[i]->getter("x") + 30,
+						objs[i]->getter("y") + 35,
+						GLUT_BITMAP_HELVETICA_12,
+						0,0,0, buf
+						);
 
 					int idx = objs[i]->getter("animeIdx");
 					if (idx > 9)
@@ -127,7 +158,7 @@ void SceneMgr::drawAllObjects(float time) {
 						objs[i]->getter("g"),
 						objs[i]->getter("b"),
 						objs[i]->getter("a"),
-						m_renderer->CreatePngTexture("Textures/PNGs/character-sprite.png"),
+						Char1TexID,
 						idx++,
 						0,
 						10,
@@ -157,14 +188,14 @@ void SceneMgr::drawAllObjects(float time) {
 						objs[i]->getter("x"),
 						objs[i]->getter("y"),
 						objs[i]->getter("z"),
-						7,
+						5,
 						1,
 						1,
 						1,
 						1,
 						(objs[i]->getter("vX")* -1),
 						(objs[i]->getter("vY") * -1),
-						m_renderer->CreatePngTexture("Textures/PNGs/particle_effect.png"),
+						ParticleTexID,
 						particleTime
 					);
 
@@ -177,7 +208,7 @@ void SceneMgr::drawAllObjects(float time) {
 						1,
 						1,
 						1,
-						m_renderer->CreatePngTexture("Textures/PNGs/bullet1.png"),
+						Bullet1TexID,
 						LEVEL_UNDERGROUND
 					);
 				}
@@ -206,7 +237,8 @@ void SceneMgr::drawAllObjects(float time) {
 						objs[i]->getter("r"),
 						objs[i]->getter("g"),
 						objs[i]->getter("b"),
-						objs[i]->getter("a"), m_renderer->CreatePngTexture("Textures/PNGs/pic2.png"),
+						objs[i]->getter("a"), 
+						Team2TexID,
 						LEVEL_SKY
 					);
 					m_renderer->DrawSolidRectGauge(
@@ -221,6 +253,13 @@ void SceneMgr::drawAllObjects(float time) {
 						1,
 						objs[i]->getter("life") / 500,
 						LEVEL_SKY
+					);
+					itoa((int)objs[i]->getter("life"), buf, 10);
+					m_renderer->DrawTextW(
+						objs[i]->getter("x") + 60,
+						objs[i]->getter("y") + 55,
+						GLUT_BITMAP_HELVETICA_18,
+						0, 0, 0, buf
 					);
 				}
 				else 	if (objs[i]->getter("type") == OBJECT_CHARACTER)
@@ -238,7 +277,7 @@ void SceneMgr::drawAllObjects(float time) {
 						objs[i]->getter("g"),
 						objs[i]->getter("b"),
 						objs[i]->getter("a"),
-						m_renderer->CreatePngTexture("Textures/PNGs/character2-sprite.png"),
+						Char2TexID,
 						idx++,
 						0,
 						10,
@@ -261,8 +300,16 @@ void SceneMgr::drawAllObjects(float time) {
 						LEVEL_GROUND
 					);
 
+					itoa((int)objs[i]->getter("life"), buf, 10);
+					m_renderer->DrawTextW(
+						objs[i]->getter("x") + 30,
+						objs[i]->getter("y") + 35,
+						GLUT_BITMAP_HELVETICA_12,
+						0, 0, 0, buf
+					);
 
-				} 	else if (objs[i]->getter("type") == OBJECT_BULLET)	{
+				} 	
+				else if (objs[i]->getter("type") == OBJECT_BULLET)	{
 					m_renderer->DrawParticle(
 						objs[i]->getter("x"),
 						objs[i]->getter("y"),
@@ -274,7 +321,7 @@ void SceneMgr::drawAllObjects(float time) {
 						1,
 						(objs[i]->getter("vX")* -1),
 						(objs[i]->getter("vY") * -1),
-						m_renderer->CreatePngTexture("Textures/PNGs/particle_effect.png"),
+						ParticleTexID,
 						particleTime
 					);
 
@@ -287,7 +334,7 @@ void SceneMgr::drawAllObjects(float time) {
 						1,
 						1,
 						1,
-						m_renderer->CreatePngTexture("Textures/PNGs/bullet2.png"),
+						Bullet2TexID,
 						LEVEL_UNDERGROUND
 					);
 				}	else	{
@@ -317,7 +364,7 @@ void SceneMgr::collisionChk()
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
 		for (int j = 0; j < MAX_OBJECTS_COUNT; ++j) {
-			if (objs[i] == NULL || objs[j] == NULL)
+			if (objs[i] == nullptr || objs[j] == nullptr)
 				continue;
 			if (i == j)
 				continue;
@@ -340,8 +387,8 @@ void SceneMgr::collisionChk()
 					if (objs[i]->getter("team") != objs[j]->getter("team"))
 					{
 						std::cout << "빌딩-캐릭터 충돌" << std::endl;
-						objs[i]->setDamage(OBJECT_CHARACTER);
-						objs[j]->setDamage(OBJECT_CHARACTER);
+						objs[i]->setDamage(OBJECT_BUILDING);
+						objs[j]->setDamage(OBJECT_BUILDING);
 					}
 				}
 				else if (objs[i]->getter("type") == OBJECT_CHARACTER &&objs[j]->getter("type") == OBJECT_CHARACTER)
@@ -410,9 +457,7 @@ void SceneMgr::updateAllObjects(float time)
 
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
-		if (objs[i] == NULL)
-			continue;
-		else {
+		if (objs[i] != NULL) {
 			life = objs[i]->getter("life");
 			lifeTime = objs[i]->getter("lifeTime");
 			if (objs[i]->getter("type") == OBJECT_BUILDING)
