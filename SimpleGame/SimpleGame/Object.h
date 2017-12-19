@@ -11,7 +11,8 @@ class Object
 	float speed, size;
 	float r, g, b, a;
 	float life, lifeTime;
-	float arrowTime, bulletTime;
+	float vParticle;
+	float arrowTime, bulletTime, particleTime, climateTime;
 	float charNo;
 	float team;
 	float animeIdx;
@@ -31,6 +32,7 @@ public:
 	void setRGB(float red, float greed, float blue);
 	void setArrowTime(float t);
 	void setBulletTime(float t);
+	void setParticleTime(float t);
 	void setAnimeIdx(float idx);
 	float getter(char* type);
 	

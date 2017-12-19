@@ -22,6 +22,8 @@ Object::~Object() {
 void Object::Initialize(float objectType, float objectSpeed, float objectX, float objectY, float objectZ, float objectSize, float red, float green, float blue, float alpha, float objectLife, float vecX, float vecY, float objectTeam)
 {
 	int dir = rand() % 8;
+	vParticle = 1;
+	climateTime = 0;
 	type = objectType;
 	state = 0;
 	x = objectX;
@@ -35,6 +37,7 @@ void Object::Initialize(float objectType, float objectSpeed, float objectX, floa
 	a = alpha;
 	life = objectLife;
 	team = objectTeam;
+	particleTime = 0;
 	arrowTime = 1.1;
 	bulletTime = 7.0;
 	animeIdx = 0;
@@ -93,6 +96,16 @@ void Object::positionUpdate(float time)
 
 	arrowTime += elapsedTime;
 	bulletTime += elapsedTime;
+	climateTime += elapsedTime;
+
+	if (particleTime > 1.f)
+		vParticle = -1;
+	if(particleTime < 0)
+		vParticle = 1;
+	
+	particleTime = particleTime + vParticle * elapsedTime;
+
+
 
 	if (x >= 250)
 	{
@@ -198,6 +211,11 @@ void Object::setBulletTime(float t)
 	bulletTime = t;
 }
 
+void Object::setParticleTime(float t)
+{
+	particleTime = t;
+}
+
 void Object::setAnimeIdx(float idx)
 {
 	animeIdx = idx;
@@ -253,6 +271,10 @@ float Object::getter(char* input)
 	{
 		return bulletTime;
 	}
+	else if (input == "climateTime")
+	{
+		return climateTime;
+	}
 	else if (input == "charNo")
 	{
 		return charNo;
@@ -264,6 +286,10 @@ float Object::getter(char* input)
 	else if (input == "vY")
 	{
 		return vY;
+	}
+	else if (input == "particleTime")
+	{
+		return particleTime;
 	}
 	else if (input == "animeIdx")
 	{

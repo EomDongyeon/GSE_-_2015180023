@@ -28,9 +28,9 @@ class SceneMgr
 	int idxBullet;
 	int idxArrow;
 	int animeIdx;
-	float particleTime;
 	int windowWidth;
 	int windowHeight;
+	float climateTime;
 
 	Object *objs[MAX_OBJECTS_COUNT] = { NULL ,};
 	Renderer *m_renderer;
@@ -44,6 +44,7 @@ class SceneMgr
 	GLuint ParticleTexID;
 	GLuint Char1TexID;
 	GLuint Char2TexID;
+	GLuint ClimateTexID;
 
 	float charTime = 5.1f;
 

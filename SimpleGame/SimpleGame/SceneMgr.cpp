@@ -16,7 +16,6 @@ SceneMgr::SceneMgr(int width, int height)
 	idxBullet = 0;
 	idxArrow = 0;
 	animeIdx = 0;
-	particleTime = 0;
 
 	m_renderer = new Renderer(width, height);
 	if (!m_renderer->IsInitialized())
@@ -34,7 +33,7 @@ SceneMgr::SceneMgr(int width, int height)
 	ParticleTexID = m_renderer->CreatePngTexture("Textures/PNGs/particle_effect.png");
 	Char1TexID = m_renderer->CreatePngTexture("Textures/PNGs/character-sprite.png");
 	Char2TexID = m_renderer->CreatePngTexture("Textures/PNGs/character2-sprite.png");
-
+	ClimateTexID = m_renderer->CreatePngTexture("Textures/PNGs/snow.png");
 	m_sound = new Sound();
 	int soundBG = m_sound->CreateSound("Sound/bgm.mp3");
 
@@ -58,8 +57,8 @@ Object SceneMgr::getObj(int idx)
 }
 
 void SceneMgr::drawAllObjects(float time) {
+	float elapsedTime = time / 1000.f;
 	char buf[200];
-	particleTime += 0.05f;
 	//배경 그리기 
 	
 	m_renderer->DrawTexturedRect(
@@ -74,7 +73,8 @@ void SceneMgr::drawAllObjects(float time) {
 		m_renderer->CreatePngTexture("Textures/PNGs/bg.png"),
 		0.4
 	);
-	
+
+
 	// 오브젝트 그리기
 	if (animeIdx++ > 10)
 		animeIdx = 0;
@@ -84,6 +84,8 @@ void SceneMgr::drawAllObjects(float time) {
 		if (objs[i] == nullptr)
 			continue;
 		else {
+			std::cout << objs[i]->getter("climateTime") << std::endl;
+			m_renderer->DrawParticleClimate(0, 0, 0, 1, 1, 1, 1, 1, -0.1, -0.1, ParticleTexID, objs[i]->getter("climateTime"), LEVEL_GOD);
 			if (objs[i]->getter("team") == TEAM_1)
 			{
 				if (objs[i]->getter("type") == OBJECT_BUILDING)
@@ -196,7 +198,7 @@ void SceneMgr::drawAllObjects(float time) {
 						(objs[i]->getter("vX")* -1),
 						(objs[i]->getter("vY") * -1),
 						ParticleTexID,
-						particleTime
+						objs[i]->getter("particleTime"), LEVEL_GROUND
 					);
 
 					m_renderer->DrawTexturedRect(
@@ -322,7 +324,7 @@ void SceneMgr::drawAllObjects(float time) {
 						(objs[i]->getter("vX")* -1),
 						(objs[i]->getter("vY") * -1),
 						ParticleTexID,
-						particleTime
+						objs[i]->getter("particleTime"), LEVEL_GROUND
 					);
 
 					m_renderer->DrawTexturedRect(
@@ -468,7 +470,6 @@ void SceneMgr::updateAllObjects(float time)
 					addObject(objs[i]->getter("x"), objs[i]->getter("y"), OBJECT_BULLET, i, objs[i]->getter("team"));
 					objs[i]->setBulletTime(0);
 				}
-
 			}
 			else if (objs[i]->getter("type") == OBJECT_CHARACTER)
 			{
