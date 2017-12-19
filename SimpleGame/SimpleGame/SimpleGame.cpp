@@ -15,7 +15,6 @@ but WITHOUT ANY WARRANTY.
 #include <vector>
 #include "Dependencies\glew.h"
 #include "Dependencies\freeglut.h"
-
 #include "Renderer.h"
 #include "Object.h"
 #include "SceneMgr.h"
@@ -24,6 +23,7 @@ using namespace std;
 
 SceneMgr *g_SceneMgr = NULL;
 DWORD g_prevTime = 0;
+Sound *m_sound = new Sound();
 
 int idx = 0;
 bool leftButtonDown = false;
@@ -118,6 +118,7 @@ int main(int argc, char **argv)
 
 	// Initialize Renderer
 	g_SceneMgr = new SceneMgr(500, 800);
+
 
 	glutDisplayFunc(RenderScene);
 	glutIdleFunc(Idle);

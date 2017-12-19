@@ -15,6 +15,7 @@ SceneMgr::SceneMgr(int width, int height)
 	idxChar = 0;
 	idxBullet = 0;
 	idxArrow = 0;
+	climateTime = 0;
 	animeIdx = 0;
 
 	m_renderer = new Renderer(width, height);
@@ -73,11 +74,13 @@ void SceneMgr::drawAllObjects(float time) {
 		m_renderer->CreatePngTexture("Textures/PNGs/bg.png"),
 		0.4
 	);
-
+	climateTime += elapsedTime;
 
 	// 오브젝트 그리기
 	if (animeIdx++ > 10)
 		animeIdx = 0;
+
+	m_renderer->DrawParticleClimate(0, 0, 0, 1, 1, 1, 1, 1, -0.1, -0.1, ParticleTexID, climateTime, LEVEL_GOD);
 
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
@@ -85,7 +88,6 @@ void SceneMgr::drawAllObjects(float time) {
 			continue;
 		else {
 			std::cout << objs[i]->getter("climateTime") << std::endl;
-			m_renderer->DrawParticleClimate(0, 0, 0, 1, 1, 1, 1, 1, -0.1, -0.1, ParticleTexID, objs[i]->getter("climateTime"), LEVEL_GOD);
 			if (objs[i]->getter("team") == TEAM_1)
 			{
 				if (objs[i]->getter("type") == OBJECT_BUILDING)

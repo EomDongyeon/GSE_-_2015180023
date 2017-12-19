@@ -24,6 +24,7 @@ void Object::Initialize(float objectType, float objectSpeed, float objectX, floa
 	int dir = rand() % 8;
 	vParticle = 1;
 	climateTime = 0;
+	particleTime = 0;
 	type = objectType;
 	state = 0;
 	x = objectX;
