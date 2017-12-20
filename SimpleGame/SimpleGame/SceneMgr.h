@@ -45,6 +45,8 @@ class SceneMgr
 	GLuint Char1TexID;
 	GLuint Char2TexID;
 	GLuint ClimateTexID;
+	GLuint FlyChar1TexID;
+	GLuint FlyChar2TexID;
 
 	float charTime = 5.1f;
 

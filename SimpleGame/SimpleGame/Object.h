@@ -2,6 +2,11 @@
 #include <iostream>
 #include "Renderer.h"
 
+#define OBJECT_BUILDING 0
+#define OBJECT_CHARACTER 1
+#define OBJECT_BULLET 2
+#define OBJECT_ARROW 3
+
 class Object
 {
 	float type;
@@ -9,10 +14,11 @@ class Object
 	float x, y, z;
 	float vX, vY;
 	float speed, size;
+	float charType;
 	float r, g, b, a;
 	float life, lifeTime;
 	float vParticle;
-	float arrowTime, bulletTime, particleTime, climateTime;
+	float arrowTime, bulletTime, particleTime;
 	float charNo;
 	float team;
 	float animeIdx;

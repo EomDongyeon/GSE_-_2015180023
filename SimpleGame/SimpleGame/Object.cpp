@@ -23,7 +23,6 @@ void Object::Initialize(float objectType, float objectSpeed, float objectX, floa
 {
 	int dir = rand() % 8;
 	vParticle = 1;
-	climateTime = 0;
 	particleTime = 0;
 	type = objectType;
 	state = 0;
@@ -41,7 +40,11 @@ void Object::Initialize(float objectType, float objectSpeed, float objectX, floa
 	particleTime = 0;
 	arrowTime = 1.1;
 	bulletTime = 7.0;
+	charType = 0;
 	animeIdx = 0;
+
+	if (type == OBJECT_CHARACTER)
+		charType = rand() % 2;
 	/*
 	switch (dir)
 	{
@@ -97,7 +100,6 @@ void Object::positionUpdate(float time)
 
 	arrowTime += elapsedTime;
 	bulletTime += elapsedTime;
-	climateTime += elapsedTime;
 
 	if (particleTime > 1.f)
 		vParticle = -1;
@@ -272,9 +274,9 @@ float Object::getter(char* input)
 	{
 		return bulletTime;
 	}
-	else if (input == "climateTime")
+	else if (input == "charType")
 	{
-		return climateTime;
+		return charType;
 	}
 	else if (input == "charNo")
 	{

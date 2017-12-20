@@ -34,6 +34,8 @@ SceneMgr::SceneMgr(int width, int height)
 	ParticleTexID = m_renderer->CreatePngTexture("Textures/PNGs/particle_effect.png");
 	Char1TexID = m_renderer->CreatePngTexture("Textures/PNGs/character-sprite.png");
 	Char2TexID = m_renderer->CreatePngTexture("Textures/PNGs/character2-sprite.png");
+	FlyChar1TexID = m_renderer->CreatePngTexture("Textures/PNGs/flying_sprite.png");
+	FlyChar2TexID = m_renderer->CreatePngTexture("Textures/PNGs/flying_sprite2.png");
 	ClimateTexID = m_renderer->CreatePngTexture("Textures/PNGs/snow.png");
 	m_sound = new Sound();
 	int soundBG = m_sound->CreateSound("Sound/bgm.mp3");
@@ -127,65 +129,103 @@ void SceneMgr::drawAllObjects(float time) {
 				}
 				else 	if (objs[i]->getter("type") == OBJECT_CHARACTER)
 				{
-					/*
-					m_renderer->DrawTexturedRect(
-						objs[i]->getter("x"),
-						objs[i]->getter("y"),
-						objs[i]->getter("z"),
-						objs[i]->getter("size"),
-						objs[i]->getter("r"),
-						objs[i]->getter("g"),
-						objs[i]->getter("b"),
-						objs[i]->getter("a"),
-						m_renderer->CreatePngTexture("Textures/PNGs/team1.png"),
-						LEVEL_GROUND
-					);
-					*/
-					itoa((int)objs[i]->getter("life"), buf, 10);
-					m_renderer->DrawTextW(
-						objs[i]->getter("x") + 30,
-						objs[i]->getter("y") + 35,
-						GLUT_BITMAP_HELVETICA_12,
-						0,0,0, buf
-						);
+					int charType = objs[i]->getter("charType");
+					int maxIdx = 0;
+					if (charType == 0)
+						maxIdx = 9;
+					else
+						maxIdx = 3;
 
 					int idx = objs[i]->getter("animeIdx");
-					if (idx > 9)
+					if (idx > maxIdx)
 						idx = 0;
 
-					m_renderer->DrawTexturedRectSeq(
-						objs[i]->getter("x"),
-						objs[i]->getter("y"),
-						objs[i]->getter("z"),
-						80,
-						objs[i]->getter("r"),
-						objs[i]->getter("g"),
-						objs[i]->getter("b"),
-						objs[i]->getter("a"),
-						Char1TexID,
-						idx++,
-						0,
-						10,
-						1,
-						LEVEL_GROUND
-					);
-					objs[i]->setAnimeIdx(idx);
+					if (charType == 0)
+					{
+						m_renderer->DrawTexturedRectSeq(
+							objs[i]->getter("x"),
+							objs[i]->getter("y"),
+							objs[i]->getter("z"),
+							80,
+							objs[i]->getter("r"),
+							objs[i]->getter("g"),
+							objs[i]->getter("b"),
+							objs[i]->getter("a"),
+							Char1TexID,
+							idx++,
+							0,
+							10,
+							1,
+							LEVEL_GROUND
+						);
+						objs[i]->setAnimeIdx(idx);
 
+						m_renderer->DrawSolidRectGauge(
+							objs[i]->getter("x"),
+							objs[i]->getter("y") + 35,
+							objs[i]->getter("z"),
+							50,
+							5,
+							1,
+							0,
+							0,
+							1,
+							objs[i]->getter("life") / 100,
+							LEVEL_GROUND
+						);
 
-					m_renderer->DrawSolidRectGauge(
-						objs[i]->getter("x"),
-						objs[i]->getter("y") + 35,
-						objs[i]->getter("z"),
-						50,
-						5,
-						1,
-						0,
-						0,
-						1,
-						objs[i]->getter("life") / 100,
-						LEVEL_GROUND
-					);
-				}	
+						itoa((int)objs[i]->getter("life"), buf, 10);
+						m_renderer->DrawTextW(
+							objs[i]->getter("x") + 30,
+							objs[i]->getter("y") + 35,
+							GLUT_BITMAP_HELVETICA_12,
+							0, 0, 0, buf
+						);
+					}
+					else if (charType == 1) {
+						m_renderer->DrawTexturedRectSeq(
+							objs[i]->getter("x"),
+							objs[i]->getter("y"),
+							objs[i]->getter("z"),
+							80,
+							objs[i]->getter("r"),
+							objs[i]->getter("g"),
+							objs[i]->getter("b"),
+							objs[i]->getter("a"),
+							FlyChar1TexID,
+							idx++,
+							0,
+							4,
+							1,
+							LEVEL_SKY
+						);
+						objs[i]->setAnimeIdx(idx);
+
+						m_renderer->DrawSolidRectGauge(
+							objs[i]->getter("x"),
+							objs[i]->getter("y") + 35,
+							objs[i]->getter("z"),
+							50,
+							5,
+							1,
+							0,
+							0,
+							1,
+							objs[i]->getter("life") / 100,
+							LEVEL_SKY
+						);
+
+						itoa((int)objs[i]->getter("life"), buf, 10);
+						m_renderer->DrawTextW(
+							objs[i]->getter("x") + 30,
+							objs[i]->getter("y") + 35,
+							GLUT_BITMAP_HELVETICA_12,
+							0, 0, 0, buf
+						);
+					}
+
+				}
+
 				else if(objs[i]->getter("type") == OBJECT_BULLET)
 				{
 					m_renderer->DrawParticle(
@@ -230,7 +270,8 @@ void SceneMgr::drawAllObjects(float time) {
 					);
 
 				}
-			} else {
+			} 
+			else {
 				if (objs[i]->getter("type") == OBJECT_BUILDING)
 				{
 					m_renderer->DrawTexturedRect(
@@ -268,49 +309,100 @@ void SceneMgr::drawAllObjects(float time) {
 				}
 				else 	if (objs[i]->getter("type") == OBJECT_CHARACTER)
 				{
+					int charType = objs[i]->getter("charType");
+					int maxIdx = 0;
+					if (charType == 0)
+						maxIdx = 9;
+					else
+						maxIdx = 3;
+
 					int idx = objs[i]->getter("animeIdx");
-					if (idx > 9)
+					if (idx > maxIdx)
 						idx = 0;
 
-					m_renderer->DrawTexturedRectSeq(
-						objs[i]->getter("x"),
-						objs[i]->getter("y"),
-						objs[i]->getter("z"),
-						80,
-						objs[i]->getter("r"),
-						objs[i]->getter("g"),
-						objs[i]->getter("b"),
-						objs[i]->getter("a"),
-						Char2TexID,
-						idx++,
-						0,
-						10,
-						1,
-						LEVEL_GROUND
-					);
-					objs[i]->setAnimeIdx(idx);
+					if (charType == 0)
+					{
+						m_renderer->DrawTexturedRectSeq(
+							objs[i]->getter("x"),
+							objs[i]->getter("y"),
+							objs[i]->getter("z"),
+							80,
+							objs[i]->getter("r"),
+							objs[i]->getter("g"),
+							objs[i]->getter("b"),
+							objs[i]->getter("a"),
+							Char2TexID,
+							idx++,
+							0,
+							10,
+							1,
+							LEVEL_GROUND
+						);
+						objs[i]->setAnimeIdx(idx);
 
-					m_renderer->DrawSolidRectGauge(
-						objs[i]->getter("x"),
-						objs[i]->getter("y") + 35,
-						objs[i]->getter("z"),
-						50,
-						5,
-						0,
-						0,
-						1,
-						1,
-						objs[i]->getter("life") / 100,
-						LEVEL_GROUND
-					);
+						m_renderer->DrawSolidRectGauge(
+							objs[i]->getter("x"),
+							objs[i]->getter("y") + 35,
+							objs[i]->getter("z"),
+							50,
+							5,
+							0,
+							0,
+							1,
+							1,
+							objs[i]->getter("life") / 100,
+							LEVEL_GROUND
+						);
 
-					itoa((int)objs[i]->getter("life"), buf, 10);
-					m_renderer->DrawTextW(
-						objs[i]->getter("x") + 30,
-						objs[i]->getter("y") + 35,
-						GLUT_BITMAP_HELVETICA_12,
-						0, 0, 0, buf
-					);
+						itoa((int)objs[i]->getter("life"), buf, 10);
+						m_renderer->DrawTextW(
+							objs[i]->getter("x") + 30,
+							objs[i]->getter("y") + 35,
+							GLUT_BITMAP_HELVETICA_12,
+							0, 0, 0, buf
+						);
+					}
+					else if (charType == 1) {   // flying Character
+						m_renderer->DrawTexturedRectSeq(
+							objs[i]->getter("x"),
+							objs[i]->getter("y"),
+							objs[i]->getter("z"),
+							80,
+							objs[i]->getter("r"),
+							objs[i]->getter("g"),
+							objs[i]->getter("b"),
+							objs[i]->getter("a"),
+							FlyChar2TexID,
+							idx++,
+							0,
+							4,
+							1,
+							LEVEL_SKY
+						);
+						objs[i]->setAnimeIdx(idx);
+
+						m_renderer->DrawSolidRectGauge(
+							objs[i]->getter("x"),
+							objs[i]->getter("y") + 35,
+							objs[i]->getter("z"),
+							50,
+							5,
+							0,
+							0,
+							1,
+							1,
+							objs[i]->getter("life") / 100,
+							LEVEL_SKY
+						);
+
+						itoa((int)objs[i]->getter("life"), buf, 10);
+						m_renderer->DrawTextW(
+							objs[i]->getter("x") + 30,
+							objs[i]->getter("y") + 35,
+							GLUT_BITMAP_HELVETICA_12,
+							0, 0, 0, buf
+						);
+					}
 
 				} 	
 				else if (objs[i]->getter("type") == OBJECT_BULLET)	{
