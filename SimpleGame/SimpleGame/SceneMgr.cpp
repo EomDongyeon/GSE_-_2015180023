@@ -46,6 +46,9 @@ SceneMgr::SceneMgr(int width, int height)
 }
 
 SceneMgr::~SceneMgr() {
+	delete[] objs;
+	delete m_renderer;
+	delete m_sound;
 }
 
 
@@ -89,7 +92,6 @@ void SceneMgr::drawAllObjects(float time) {
 		if (objs[i] == nullptr)
 			continue;
 		else {
-			std::cout << objs[i]->getter("climateTime") << std::endl;
 			if (objs[i]->getter("team") == TEAM_1)
 			{
 				if (objs[i]->getter("type") == OBJECT_BUILDING)

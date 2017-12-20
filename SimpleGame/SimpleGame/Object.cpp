@@ -110,25 +110,25 @@ void Object::positionUpdate(float time)
 
 
 
-	if (x >= 250)
+	if (x > 250)
 	{
 		vX = -vX;
 		if (type == OBJECT_BULLET || type == OBJECT_ARROW)
 			life = 0;
 	}
-	if (x <= -250)
+	if (x < -250)
 	{
 		vX = -vX;
 		if (type == OBJECT_BULLET || type == OBJECT_ARROW)
 			life = 0;
 	}
-	if (y >= 400)
+	if (y > 400)
 	{
 		vY = -vY;
 		if (type == OBJECT_BULLET || type == OBJECT_ARROW)
 			life = 0;
 	}
-	if (y <= -400)
+	if (y < -400)
 	{
 		vY = -vY;
 		if (type == OBJECT_BULLET || type == OBJECT_ARROW)
