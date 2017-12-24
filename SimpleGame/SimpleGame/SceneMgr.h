@@ -19,6 +19,12 @@
 #define LEVEL_GROUND 0.2
 #define LEVEL_UNDERGROUND 0.3
 
+enum {
+	INIT = 0,
+	MAIN,
+	WIN,
+	LOSE
+};
 
 
 class SceneMgr
@@ -37,6 +43,8 @@ class SceneMgr
 	Sound *m_sound;
 
 	GLuint BgTexID;
+	GLuint winBgTexID;
+	GLuint loseBgTexID;
 	GLuint Team1TexID;
 	GLuint Team2TexID;
 	GLuint Bullet1TexID;
@@ -51,6 +59,7 @@ class SceneMgr
 	float charTime = 5.1f;
 
 public:
+	int sceneMode = INIT;
 	SceneMgr();
 	SceneMgr(int width, int height);
 	~SceneMgr();
@@ -59,6 +68,9 @@ public:
 	void drawAllObjects(float time);
 	void collisionChk();
 	void updateAllObjects(float time);
+
+	void resultScene();
+	void ResultChk();
 
 	void deleteObject(int idx);
 

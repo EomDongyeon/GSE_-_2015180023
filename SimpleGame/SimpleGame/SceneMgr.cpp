@@ -27,6 +27,8 @@ SceneMgr::SceneMgr(int width, int height)
 	windowHeight = height;
 
 	BgTexID = m_renderer->CreatePngTexture("Textures/PNGs/bg.png");
+	winBgTexID = m_renderer->CreatePngTexture("Textures/PNGs/winResult.png");
+	loseBgTexID = m_renderer->CreatePngTexture("Textures/PNGs/loseResult.png");
 	Team1TexID = m_renderer->CreatePngTexture("Textures/PNGs/pic1.png");
 	Team2TexID = m_renderer->CreatePngTexture("Textures/PNGs/pic2.png");
 	Bullet1TexID = m_renderer->CreatePngTexture("Textures/PNGs/bullet1.png");
@@ -65,6 +67,7 @@ Object SceneMgr::getObj(int idx)
 void SceneMgr::drawAllObjects(float time) {
 	float elapsedTime = time / 1000.f;
 	char buf[200];
+	int mainIdx = 0;
 	//배경 그리기 
 	
 	m_renderer->DrawTexturedRect(
@@ -141,6 +144,9 @@ void SceneMgr::drawAllObjects(float time) {
 					int idx = objs[i]->getter("animeIdx");
 					if (idx > maxIdx)
 						idx = 0;
+
+				//	if (mainIdx % 2 == 0)
+					//	idx++;
 
 					if (charType == 0)
 					{
@@ -225,7 +231,7 @@ void SceneMgr::drawAllObjects(float time) {
 							0, 0, 0, buf
 						);
 					}
-
+					mainIdx++;
 				}
 
 				else if(objs[i]->getter("type") == OBJECT_BULLET)
@@ -272,6 +278,7 @@ void SceneMgr::drawAllObjects(float time) {
 					);
 
 				}
+
 			} 
 			else {
 				if (objs[i]->getter("type") == OBJECT_BUILDING)
@@ -598,7 +605,70 @@ void SceneMgr::updateAllObjects(float time)
 		}
 	}
 
+	ResultChk();
+
 }
+
+void SceneMgr::resultScene()
+{
+	if (sceneMode == WIN)
+	{
+		m_renderer->DrawTexturedRect(
+			0,
+			0,
+			0,
+			800,
+			1,
+			1,
+			1,
+			1,
+			winBgTexID,
+			0.1
+		);
+	}
+	else if (sceneMode == LOSE)
+	{
+		m_renderer->DrawTexturedRect(
+			0,
+			0,
+			0,
+			800,
+			1,
+			1,
+			1,
+			1,
+			loseBgTexID,
+			0.1
+		);
+	}
+}
+
+void SceneMgr::ResultChk()
+{
+	int team1lose = 0;
+	int team2lose = 0;
+	for (int i = 0; i < 6; ++i)
+	{
+		if (objs[i] == NULL)
+			continue;
+		if (i >= 3)
+		{
+			if (objs[i]->getter("type") != OBJECT_BUILDING)
+				++team1lose;
+		}
+		else
+		{
+			if (objs[i]->getter("type") != OBJECT_BUILDING)
+				++team2lose;
+		}
+
+	}
+	if (team1lose >= 3)
+		sceneMode = LOSE;
+	else if (team2lose >= 3)
+		sceneMode = WIN;
+}
+
 
 void SceneMgr::deleteObject(int idx)
 {
@@ -629,8 +699,6 @@ void SceneMgr::initObject()
 	objs[idxObjs++] = new Object(Object(OBJECT_BUILDING, 0, 150, -300, 0, 100, 1, 1, 1, 1, 500, 0, 0, TEAM_2));
 
 }
-
-
 
 void SceneMgr::addObject(float objectX, float objectY, float objectType, int idx, int team)
 {

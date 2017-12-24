@@ -27,7 +27,6 @@ Sound *m_sound = new Sound();
 
 int idx = 0;
 bool leftButtonDown = false;
-bool first = true;
 float Team2CharTime = 7.1f;
 
 void RenderScene(void)
@@ -45,18 +44,23 @@ void RenderScene(void)
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	// Renderer Test
 
-	if (first)
+	if (g_SceneMgr->sceneMode == INIT)
 	{
 		g_SceneMgr->initObject();
-		first = false;
+		g_SceneMgr->sceneMode = MAIN;
 	}
-	g_SceneMgr->updateAllObjects((float)elapsedTime);
-	g_SceneMgr->drawAllObjects((float)elapsedTime);
+	if (g_SceneMgr->sceneMode == MAIN)
+	{
+		g_SceneMgr->updateAllObjects((float)elapsedTime);
+		g_SceneMgr->drawAllObjects((float)elapsedTime);
 
-	if (g_SceneMgr->getIdx() > 1)
-		g_SceneMgr->collisionChk();
-
-
+		if (g_SceneMgr->getIdx() > 1)
+			g_SceneMgr->collisionChk();
+	}
+	if (g_SceneMgr->sceneMode == WIN || g_SceneMgr->sceneMode == LOSE)
+	{
+		g_SceneMgr->resultScene();
+	}
 
 	glutSwapBuffers();
 }
@@ -94,7 +98,6 @@ void SpecialKeyInput(int key, int x, int y)
 {
 	RenderScene();
 }
-
 
 int main(int argc, char **argv)
 {
