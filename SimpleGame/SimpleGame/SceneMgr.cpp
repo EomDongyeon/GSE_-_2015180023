@@ -649,24 +649,32 @@ void SceneMgr::ResultChk()
 	int team2lose = 0;
 	for (int i = 0; i < 6; ++i)
 	{
-		if (objs[i] == NULL)
-			continue;
-		if (i >= 3)
+		if (i < 3)
 		{
-			if (objs[i]->getter("type") != OBJECT_BUILDING)
+			if (objs[i] != NULL)
+			{
+				if (objs[i]->getter("type") != OBJECT_BUILDING)
+					++team1lose;
+			}
+			else 
 				++team1lose;
 		}
 		else
 		{
-			if (objs[i]->getter("type") != OBJECT_BUILDING)
+			if (objs[i] != NULL)
+			{
+				if (objs[i]->getter("type") != OBJECT_BUILDING)
+					++team2lose;
+			}
+			else
 				++team2lose;
 		}
 
 	}
 	if (team1lose >= 3)
-		sceneMode = LOSE;
-	else if (team2lose >= 3)
 		sceneMode = WIN;
+	else if (team2lose >= 3)
+		sceneMode = LOSE;
 }
 
 
